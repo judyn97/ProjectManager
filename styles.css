@@ -1,0 +1,248 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.top-menu-bar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-selector button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.project-selector button:hover {
+    background-color: #777;
+}
+
+#selected-project-name {
+    font-size: 1.5em;
+}
+
+.content-container {
+    display: flex;
+    height: calc(100vh - 60px); /* Adjust height based on top menu bar */
+}
+
+.left-sidebar {
+    width: 25%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.main-body {
+    width: 75%;
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+.view-selector button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.view-selector button:hover {
+    background-color: #0056b3;
+}
+
+#gantt-chart-container, #cfd-container {
+    margin-top: 20px;
+    background-color: #eaeaea;
+    padding: 20px;
+    min-height: 300px;
+    overflow-x: auto; /* Enables horizontal scrolling */
+}
+
+/* Add to styles.css */
+.task-creation-form {
+    padding: 20px;
+    background-color: #e0e0e0;
+    margin: 20px 0;
+}
+
+.task-creation-form h2 {
+    margin-top: 0;
+}
+
+.task-creation-form label {
+    display: inline-block;
+    width: 120px;
+}
+
+.task-creation-form input, .task-creation-form select, .task-creation-form textarea {
+    margin-bottom: 10px;
+    width: calc(100% - 140px);
+    padding: 5px;
+}
+
+.task-creation-form button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.task-creation-form button:hover {
+    background-color: #218838;
+}
+
+/* Task item styles */
+.task-item {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.task-item h3 {
+    margin-top: 0;
+}
+
+.project-selector button:hover,
+.view-selector button:hover,
+.task-creation-form button:hover {
+    opacity: 0.8;
+}
+
+.task-item:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+    border-color: #aaa;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+
+/* Gantt styles */
+.gantt-grid {
+    display: grid;
+    grid-auto-flow: column; /* Ensure the grid expands horizontally */
+    grid-template-rows: auto;
+    width: max-content; /* Ensure the grid takes only as much space as needed */
+    background-color: #ddd;
+    border: 1px solid #bbb;
+    margin-bottom: 20px;
+}
+
+.gantt-day {
+    padding: 10px;
+    border-right: 1px solid #bbb;
+    text-align: center;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.gantt-task {
+    grid-row: 2;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #0056b3;
+    border-radius: 5px;
+    margin: 5px 0;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+#gantt-chart-container {
+    overflow-x: auto; /* Ensure the container scrolls horizontally */
+    overflow-y: hidden;
+    white-space: nowrap; /* Prevent wrapping inside the container */
+}
+
+.current-day {
+    background-color: #ffcc00 !important;
+}
+
+
+/* CFD sytles */
+.cfd-chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    height: 200px;
+}
+
+.cfd-stage {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+    border: 1px solid #0056b3;
+    border-radius: 5px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .content-container {
+        flex-direction: column;
+    }
+
+    .left-sidebar, .main-body {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-selector button, .view-selector button {
+        padding: 8px;
+        margin: 0 2px;
+    }
+
+    .gantt-grid {
+        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    }
+}
+
+
+/* Chart JS */
+.chartMenu {
+  width: 100vw;
+  height: 40px;
+  background: #1A1A1A;
+  color: rgba(54, 162, 235, 1);
+}
+.chartMenu p {
+  padding: 10px;
+  font-size: 20px;
+}
+/*
+.chartCard {
+  width: 100vw;
+  height: calc(100vh - 40px);
+  background: rgba(54, 162, 235, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  */
+.chartBox {
+  width: 1rel;
+  padding: 20px;
+  border-radius: 20px;
+  border: solid 3px rgba(54, 162, 235, 1);
+  background: white;
+}

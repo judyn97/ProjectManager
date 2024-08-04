@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+ 
+    </script>
+</head>
+<body>
+    <div class="top-menu-bar">
+        <h1>Project Tracker</h1>
+        <div class="project-selector">
+            <button onclick="selectProject('Project 1')">Project 1</button>
+            <button onclick="selectProject('Project 2')">Project 2</button>
+            <button onclick="selectProject('Project 3')">Project 3</button>
+        </div>
+        <div id="selected-project-name">Project 1</div>
+    </div>
+
+    <div class="task-creation-form">
+        <h2>Create New Task</h2>
+        <form id="task-form">
+            <label for="task-name">Task Name:</label>
+            <input type="text" id="task-name" required><br>
+    
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" required><br>
+    
+            <label for="due-date">Due Date:</label>
+            <input type="date" id="due-date" required><br>
+    
+            <label for="progress">Progress:</label>
+            <select id="progress">
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select><br>
+    
+            <label for="description">Task Description:</label>
+            <textarea id="description" rows="3"></textarea><br>
+    
+            <label for="person-in-charge">Person in Charge:</label>
+            <input type="text" id="person-in-charge"><br>
+    
+            <button type="button" onclick="addTask()">Add Task</button>
+        </form>
+    </div>
+    
+
+    <div class="content-container">
+        <div class="left-sidebar">
+            <h2>Task List</h2>
+            <div id="task-list">
+                <!-- Task list will be dynamically updated here -->
+            </div>
+        </div>
+        
+        <div class="main-body">
+            <div class="view-selector">
+                <button onclick="showGanttChart()">Gantt Chart</button>
+                <button onclick="showCFD()">Cumulative Flow Diagram</button>
+            </div>
+            <div id="gantt-chart-container">
+                <!-- Gantt chart will be generated here -->
+                <!-- <div id="chart_div"></div> -->
+                <div class="chartCard">
+                    <div class="chartBox">
+                      <canvas id="myChart"></canvas>
+                      <input type="month" onChange="chartFilter(this)"/>
+                    </div>
+                </div>
+                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+            </div>
+            <div id="cfd-container" style="display: none;">
+                <!-- CFD will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
