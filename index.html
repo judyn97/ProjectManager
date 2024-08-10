@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript">
  
     </script>
@@ -35,8 +36,8 @@
             <label for="due-date">Due Date:</label>
             <input type="date" id="due-date" required><br>
     
-            <label for="progress">Progress:</label>
-            <select id="progress">
+            <label for="status">Status:</label>
+            <select id="status">
                 <option value="Not Started">Not Started</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Completed">Completed</option>
@@ -52,9 +53,16 @@
         </form>
     </div>
     
-
+    <div class="group-selector">
+        <button onclick="selectGroup('Software')">Software</button>
+        <button onclick="selectGroup('Electrical')">Electrical</button>
+        <button onclick="selectGroup('Mechanical')">Mechanical</button>
+    </div>
     <div class="content-container">
         <div class="left-sidebar">
+            <select id="personInChargeFilter">
+                <option value="all">All</option>
+            </select>    
             <h2>Task List</h2>
             <div id="task-list">
                 <!-- Task list will be dynamically updated here -->
@@ -67,10 +75,8 @@
                 <button onclick="showCFD()">Cumulative Flow Diagram</button>
             </div>
             <div id="gantt-chart-container">
-                <!-- Gantt chart will be generated here -->
-                <!-- <div id="chart_div"></div> -->
                 <div class="chartCard">
-                    <div class="chartBox">
+                    <div id="GCchartBox" class="chartBox">
                       <canvas id="myChart"></canvas>
                       <input type="month" onChange="chartFilter(this)"/>
                     </div>
@@ -79,7 +85,9 @@
                 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
             </div>
             <div id="cfd-container" style="display: none;">
-                <!-- CFD will be generated here -->
+                <div id="BUchartBox" class="chartBox">
+                    <canvas id="burnUpChart"></canvas>
+                </div>
             </div>
         </div>
     </div>

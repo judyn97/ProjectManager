@@ -1,6 +1,14 @@
 // script.js
 let currentProject = 'Project 1';
+let currentGroup = 'Software';
 let ganttChartInstance = null;  // Store the chart instance
+let burnUpChartInstance = null;  // Store the chart instance
+
+// Event listeners
+document.getElementById('personInChargeFilter').addEventListener('change',() => {
+    updateTaskList();    // Update task list based on the filter
+    updateGanttChart();  // Update Gantt chart based on the filter
+    });
 
 function selectProject(projectName) {
     currentProject = projectName;
@@ -8,6 +16,39 @@ function selectProject(projectName) {
     updateTaskList();
     updateGanttChart();
     updateCFD();
+    populateDropdown();
+}
+
+function selectGroup(groupName) {
+    currentGroup = groupName;
+    document.getElementById('selected-project-name').innerText = groupName;
+    updateTaskList();
+    updateGanttChart();
+    updateCFD();
+    populateDropdown();
+}
+
+// Populate the dropdown with unique personInCharge values
+function populateDropdown() {
+    const dropdown = document.getElementById('personInChargeFilter');
+    
+    // Clear any existing options
+    dropdown.innerHTML = '<option value="all">All</option>';
+    
+    const personSet = new Set();
+
+    // Iterate over the tasks in the current project and group
+    projects[currentProject][currentGroup].forEach(task => {
+        personSet.add(task.personInCharge);
+    });
+
+    // Add the unique personInCharge values to the dropdown
+    personSet.forEach(person => {
+        const option = document.createElement('option');
+        option.value = person;
+        option.textContent = person;
+        dropdown.appendChild(option);
+    });
 }
 
 function showGanttChart() {
@@ -20,23 +61,22 @@ function showCFD() {
     document.getElementById('cfd-container').style.display = 'block';
 }
 
-function updateTaskList() {
-    // Logic to update the task list based on the selected project
-}
-
 function drawChart() {
+
+    const selectedPerson = document.getElementById('personInChargeFilter').value;
     const data = {
         datasets: []
     };
 
-    const tasks = projects[currentProject]; // Get tasks for the selected project
+    const tasks = projects[currentProject][currentGroup]
+        .filter(task => selectedPerson === 'all' || task.personInCharge === selectedPerson);
 
     if(tasks.length !== 0){
         const formattedTasks = tasks.map(task => ({
             x: [task.startDate, task.dueDate], // Use startDate and dueDate
             y: task.taskName,                  // Use taskName for Y-axis
             name: task.personInCharge,         // Assign the person in charge
-            status: task.progress              // Assign the task progress
+            status: task.status              // Assign the task status
         }));
     
         const colours = ['rgba(255, 26, 104, 1','rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)'];
@@ -153,7 +193,7 @@ function drawChart() {
                             break;
                     }
                 
-                    /* Progress circle */
+                    /* Status circle */
                     ctx.beginPath();
                     ctx.fillStyle = colours[x];
                     ctx.arc(right + (paddingRight / 2),y.getPixelForValue(index), 12, 0, angle * 360, false);
@@ -164,10 +204,10 @@ function drawChart() {
                     ctx.fillText(icons[x], right + (paddingRight / 2), y.getPixelForValue(index));
                 });
             
-                /* Progress title */
+                /* Status title */
                 ctx.fillStyle = 'black';
                 ctx.font = 'bold 12px sans-serif';
-                ctx.fillText('Progress', right + (paddingRight / 2) , top - 15);
+                ctx.fillText('Status', right + (paddingRight / 2) , top - 15);
                 ctx.restore();
             }
         };
@@ -189,6 +229,25 @@ function drawChart() {
                 ctx.restore();
             }
         };
+
+        //Weekend plugin block
+        const weekend = {
+            id: 'weekend',
+            beforeDatasetsDraw(chart, args, pluginOptions) {
+                const { ctx,  chartArea: { top, bottom, left, right, width, height }, scales: { x, y } } = chart;
+
+                ctx.save();
+
+                x.ticks.forEach((tick, index) => {
+                    const day = new Date(tick.value).getDay();
+                    if(day === 6 || day === 0)
+                    {
+                        ctx.fillStyle = pluginOptions.weekendColor;
+                        ctx.fillRect(x.getPixelForValue(tick.value),top,x.getPixelForValue(new Date(tick.value).setHours(24)) - x.getPixelForValue(tick.value),height);
+                    }
+                })
+            }
+        }
     
     
         const config = {
@@ -218,6 +277,9 @@ function drawChart() {
                     }
                 },
                 plugins: {
+                    weekend: {
+                        weekendColor: 'rgba(102,102,102, 0.2)'
+                    },
                     legend: {
                         display: false
                     },
@@ -249,7 +311,7 @@ function drawChart() {
                     }
                 }
             },
-            plugins: [todayLine, assignedTask, status]
+            plugins: [todayLine, assignedTask, status, weekend]
         };
         
         // Destroy the previous chart instance if it exists
@@ -282,35 +344,124 @@ function chartFilter(date){
 
     const startDate = `${year}-${month}-01`;
     const endDate = `${year}-${month}-${lastDay(year,month)}`;
-    console.log(startDate);
-    console.log(endDate);
 
     ganttChartInstance.config.options.scales.x.min = startDate;
     ganttChartInstance.config.options.scales.x.max = endDate;
     ganttChartInstance.update();
 }
 
+function drawBUChart() {
+    // Data for the tasks
+    const tasks = projects[currentProject][currentGroup];
+    if(tasks.length !== 0){
+        // Extracting the dates and progress
+        const labels = tasks.map(task => task.dueDate);
+
+        // Cumulative task completion (burn-up line)
+        let cumulativeTasksCompleted = 0;
+        const cumulativeProgressData = tasks.map(task => {
+            cumulativeTasksCompleted += task.progress / 100;
+            return cumulativeTasksCompleted;
+        });
+
+        // Total number of tasks (scope line)
+        const totalTasks = tasks.length;
+        const totalTasksData = Array(labels.length).fill(totalTasks);
+
+        // Destroy the previous chart instance if it exists
+        if (burnUpChartInstance) {
+            burnUpChartInstance.destroy();
+        }
+
+        // Configuring the chart
+        const ctx = document.getElementById('burnUpChart').getContext('2d');
+        burnUpChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Cumulative Tasks Completed',
+                        data: cumulativeProgressData,
+                        borderColor: 'green',
+                        fill: false,
+                    },
+                    {
+                        label: 'Total Tasks',
+                        data: totalTasksData,
+                        borderColor: 'red',
+                        borderDash: [5, 5],
+                        fill: false,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: totalTasks,
+                        title: {
+                            display: true,
+                            text: 'Tasks Completed'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Task End Date'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    else{
+        // Destroy the previous chart instance if it exists
+        if (burnUpChartInstance) {
+            burnUpChartInstance.destroy();
+        }
+    }
+}
+
 function updateGanttChart() {
+
+    const gcContainer = document.getElementById('GCchartBox');
+
+    const tasks = projects[currentProject][currentGroup];
+    if (tasks.length === 0) {
+        gcContainer.innerHTML = '<p>No data to display in Gantt Chart.</p>';
+    }
+    else{
+        gcContainer.innerHTML = '<canvas id="myChart"></canvas><input type="month" onChange="chartFilter(this)"/>';
+    }
     drawChart();
 }
 
 function updateCFD() {
-    const cfdContainer = document.getElementById('cfd-container');
-    cfdContainer.innerHTML = ''; // Clear existing CFD
+    const cfdContainer = document.getElementById('BUchartBox');
 
-    const tasks = projects[currentProject];
+    const tasks = projects[currentProject][currentGroup];
     if (tasks.length === 0) {
+        console.log("hell");
+        console.log(cfdContainer);
         cfdContainer.innerHTML = '<p>No data to display in CFD.</p>';
-        return;
+    }
+    else{
+        cfdContainer.innerHTML = '<canvas id="burnUpChart"></canvas>';
     }
 
-    const progressStages = ["Not Started", "In Progress", "Completed"];
-    const stageCounts = progressStages.map(stage => tasks.filter(task => task.progress === stage).length);
+    drawBUChart();
+
+    
+    /* Save for later
+    const statusStages = ["Not Started", "In Progress", "Completed"];
+    const stageCounts = statusStages.map(stage => tasks.filter(task => task.status === stage).length);
 
     const cfdChart = document.createElement('div');
     cfdChart.className = 'cfd-chart';
 
-    progressStages.forEach((stage, index) => {
+    statusStages.forEach((stage, index) => {
         const stageBar = document.createElement('div');
         stageBar.className = 'cfd-stage';
         stageBar.style.height = `${stageCounts[index] * 20}px`; // Height proportional to the number of tasks
@@ -319,90 +470,98 @@ function updateCFD() {
     });
 
     cfdContainer.appendChild(cfdChart);
+    */
 }
 
 let projects = {
-    'Project 1': [
-        {
-            taskName: 'Study phase',
-            startDate: '2024-08-01',
-            dueDate: '2024-08-10',
-            progress: 'Completed',
-            description: 'Teach event driven system',
-            personInCharge: 'Jalal'
-        },
-        {
-            taskName: 'Development Phase',
-            startDate: '2024-08-11',
-            dueDate: '2024-08-25',
-            progress: 'In Progress',
-            description: 'Developing the MCU system',
-            personInCharge: 'Amirah'
-        },
-        {
-            taskName: 'Testing Phase',
-            startDate: '2024-08-26',
-            dueDate: '2024-09-05',
-            progress: 'Not Started',
-            description: 'Testing the GUI Implementation',
-            personInCharge: 'Hazman'
-        },
-        {
-            taskName: 'Test1 phase',
-            startDate: '2024-08-01',
-            dueDate: '2024-08-10',
-            progress: 'Completed',
-            description: 'Teach event driven system',
-            personInCharge: 'Jalal'
-        },
-        {
-            taskName: 'Test2 Phase',
-            startDate: '2024-08-11',
-            dueDate: '2024-08-25',
-            progress: 'In Progress',
-            description: 'Developing the MCU system',
-            personInCharge: 'Amirah'
-        },
-        {
-            taskName: 'Test3 phase',
-            startDate: '2024-08-01',
-            dueDate: '2024-08-10',
-            progress: 'Completed',
-            description: 'Teach event driven system',
-            personInCharge: 'Jalal'
-        },
-        {
-            taskName: 'Test4 Phase',
-            startDate: '2024-08-11',
-            dueDate: '2024-08-25',
-            progress: 'In Progress',
-            description: 'Developing the MCU system',
-            personInCharge: 'Amirah'
-        },
-    ],
-    'Project 2': [
-        {
-            taskName: 'Study phase',
-            startDate: '2024-08-01',
-            dueDate: '2024-08-10',
-            progress: 'Completed',
-            description: 'Teach event driven system',
-            personInCharge: 'Jalal'
-        },
-    ],
-    'Project 3': []
+    'Project 1': {
+        'Software': [
+            {
+                taskName: 'Study phase',
+                startDate: '2024-08-01',
+                dueDate: '2024-08-10',
+                status: 'Completed',
+                progress: 100,
+                description: 'Teach event driven system',
+                personInCharge: 'Jalal'
+            },
+            {
+                taskName: 'Development Phase',
+                startDate: '2024-08-11',
+                dueDate: '2024-08-25',
+                status: 'In Progress',
+                progress: 50,
+                description: 'Developing the MCU system',
+                personInCharge: 'Amirah'
+            },
+            {
+                taskName: 'Testing Phase',
+                startDate: '2024-08-26',
+                dueDate: '2024-09-05',
+                status: 'Not Started',
+                progress: 0,
+                description: 'Testing the GUI Implementation',
+                personInCharge: 'Hazman'
+            },
+            // More tasks...
+        ],
+        'Electrical': [
+            {
+                taskName: 'Study phase',
+                startDate: '2024-08-01',
+                dueDate: '2024-08-10',
+                status: 'Completed',
+                progress: 100,
+                description: 'MCU Port Settings',
+                personInCharge: 'Auni'
+            },
+            {
+                taskName: 'Development Phase',
+                startDate: '2024-08-11',
+                dueDate: '2024-08-25',
+                status: 'In Progress',
+                progress: 50,
+                description: 'Developing the MCU system',
+                personInCharge: 'Anissa'
+            },
+            // Tasks for Electrical department...
+        ],
+        'Mechanical': [
+            // Tasks for Mechanical department...
+        ]
+    },
+    'Project 2': {
+        'Software': [
+            {
+                taskName: 'Study phase',
+                startDate: '2024-08-01',
+                dueDate: '2024-08-10',
+                status: 'Completed',
+                progress: 100,
+                description: 'Teach event driven system',
+                personInCharge: 'Jalal'
+            }
+        ],
+        'Electrical': [],
+        'Mechanical': []
+    },
+    'Project 3': {
+        'Software': [],
+        'Electrical': [],
+        'Mechanical': []
+    }
 };
 
 function addTask() {
     const taskName = document.getElementById('task-name').value;
     const startDate = document.getElementById('start-date').value;
     const dueDate = document.getElementById('due-date').value;
-    const progress = document.getElementById('progress').value;
+    const status = document.getElementById('status').value;
     const description = document.getElementById('description').value;
     const personInCharge = document.getElementById('person-in-charge').value;
 
     // Form validation
-    if (!taskName || !startDate || !dueDate || !progress || !personInCharge) {
+    if (!taskName || !startDate || !dueDate || !status || !personInCharge) {
         alert('Please fill out all required fields.');
         return;
     }
@@ -411,12 +570,12 @@ function addTask() {
         taskName,
         startDate,
         dueDate,
-        progress,
+        status,
         description,
         personInCharge
     };
 
-    projects[currentProject].push(newTask);
+    projects[currentProject][currentGroup].push(newTask);
     updateTaskList();
     updateGanttChart();
     updateCFD();
@@ -428,24 +587,27 @@ function addTask() {
 }
 
 function updateTaskList() {
+    const selectedPerson = document.getElementById('personInChargeFilter').value;
     const taskList = document.getElementById('task-list');
     taskList.innerHTML = ''; // Clear current task list
 
-    projects[currentProject].forEach(task => {
-        const taskItem = document.createElement('div');
-        taskItem.className = 'task-item';
-        taskItem.innerHTML = `
-            <h3>${task.taskName}</h3>
-            <p><strong>Start Date:</strong> ${task.startDate}</p>
-            <p><strong>Due Date:</strong> ${task.dueDate}</p>
-            <p><strong>Progress:</strong> ${task.progress}</p>
-            <p><strong>Description:</strong> ${task.description}</p>
-            <p><strong>Person in Charge:</strong> ${task.personInCharge}</p>
-            <button>Edit</button>
-            <button>Delete</button>
-        `;
-        taskList.appendChild(taskItem);
-    });
+    projects[currentProject][currentGroup]
+        .filter(task => selectedPerson === 'all' || task.personInCharge === selectedPerson)
+        .forEach(task => {
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.innerHTML = `
+                <h3>${task.taskName}</h3>
+                <p><strong>Start Date:</strong> ${task.startDate}</p>
+                <p><strong>Due Date:</strong> ${task.dueDate}</p>
+                <p><strong>Status:</strong> ${task.status}</p>
+                <p><strong>Description:</strong> ${task.description}</p>
+                <p><strong>Person in Charge:</strong> ${task.personInCharge}</p>
+                <button>Edit</button>
+                <button>Delete</button>
+            `;
+            taskList.appendChild(taskItem);
+        });
 }
 
 // Initialize with default project

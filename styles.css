@@ -15,6 +15,12 @@ body {
     align-items: center;
 }
 
+.group-selector {
+    display:flex;
+    justify-content: center;
+}
+
+.group-selector button,
 .project-selector button {
     background-color: #555;
     color: #fff;
@@ -24,6 +30,7 @@ body {
     cursor: pointer;
 }
 
+.group-selector button:hover,
 .project-selector button:hover {
     background-color: #777;
 }
@@ -240,7 +247,7 @@ body {
 }
   */
 .chartBox {
-  width: 1rel;
+  width: 1rel;  /*Change later*/
   padding: 20px;
   border-radius: 20px;
   border: solid 3px rgba(54, 162, 235, 1);
