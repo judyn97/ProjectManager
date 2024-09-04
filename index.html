@@ -24,9 +24,10 @@
         <div id="selected-project-name">Project 1</div>
     </div>
 
-    <div class="task-creation-form">
+    <div class="task-creation-form" id="task-creation-form">
         <h2>Create New Task</h2>
         <form id="task-form">
+            <button id ="close-task-form" type="button" onclick="closeTaskForm()">X</button>
             <label for="task-name">Task Name:</label>
             <input type="text" id="task-name" required><br>
     
@@ -43,13 +44,13 @@
                 <option value="Completed">Completed</option>
             </select><br>
     
-            <label for="description">Task Description:</label>
-            <textarea id="description" rows="3"></textarea><br>
+            <label for="description">Description:</label>
+            <textarea id="description" rows="5"></textarea><br>
     
-            <label for="person-in-charge">Person in Charge:</label>
+            <label for="person-in-charge">PIC Name:</label>
             <input type="text" id="person-in-charge"><br>
     
-            <button type="button" onclick="addTask()">Add Task</button>
+            <button id="add-task-form" type="button" onclick="addTask()">Add Task</button>
         </form>
     </div>
     
@@ -62,8 +63,9 @@
         <div class="left-sidebar">
             <select id="personInChargeFilter">
                 <option value="all">All</option>
-            </select>    
+            </select>
             <h2>Task List</h2>
+            <button id="popup-add-task-form" type="button" onclick="popupAddTaskForm()">Add Task</button>
             <div id="task-list">
                 <!-- Task list will be dynamically updated here -->
             </div>
@@ -72,7 +74,7 @@
         <div class="main-body">
             <div class="view-selector">
                 <button onclick="showGanttChart()">Gantt Chart</button>
-                <button onclick="showCFD()">Cumulative Flow Diagram</button>
+                <button onclick="showCFD()">Burnt-Up Chart</button>
             </div>
             <div id="gantt-chart-container">
                 <div class="chartCard">

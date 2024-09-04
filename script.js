@@ -61,6 +61,14 @@ function showCFD() {
     document.getElementById('cfd-container').style.display = 'block';
 }
 
+function closeTaskForm() {
+    document.getElementById('task-creation-form').style.display = 'none';
+}
+
+function popupAddTaskForm() {
+    document.getElementById('task-creation-form').style.display = 'block';
+}
+
 function drawChart() {
 
     const selectedPerson = document.getElementById('personInChargeFilter').value;
@@ -583,6 +591,7 @@ function addTask() {
     // Clear the form
     document.getElementById('task-form').reset();
 
+    closeTaskForm();
     alert('Task added successfully!');
 }
 
