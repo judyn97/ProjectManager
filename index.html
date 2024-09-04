@@ -61,22 +61,27 @@
     </div>
     <div class="content-container">
         <div class="left-sidebar">
-            <select id="personInChargeFilter">
-                <option value="all">All</option>
-            </select>
-            <h2>Task List</h2>
-            <button id="popup-add-task-form" type="button" onclick="popupAddTaskForm()">Add Task</button>
-            <div id="task-list">
-                <!-- Task list will be dynamically updated here -->
-            </div>
+            
         </div>
         
         <div class="main-body">
             <div class="view-selector">
+                <button onclick="showTaskList()">Task List</button>
                 <button onclick="showGanttChart()">Gantt Chart</button>
                 <button onclick="showCFD()">Burnt-Up Chart</button>
             </div>
-            <div id="gantt-chart-container">
+            <div id="task-list-container" style="display: block;">
+                
+                <h2>Task List</h2>
+                <select id="personInChargeFilter">
+                    <option value="all">All</option>
+                </select>
+                <button id="popup-add-task-form" type="button" onclick="popupAddTaskForm()">Add Task</button>
+                <div id="task-list">
+                    <!-- Task list will be dynamically updated here -->
+                </div>
+            </div>
+            <div id="gantt-chart-container" style="display: none;">
                 <div class="chartCard">
                     <div id="GCchartBox" class="chartBox">
                       <canvas id="myChart"></canvas>

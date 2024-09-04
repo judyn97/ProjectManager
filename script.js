@@ -51,12 +51,20 @@ function populateDropdown() {
     });
 }
 
+function showTaskList() {
+    document.getElementById('task-list-container').style.display = 'block';
+    document.getElementById('gantt-chart-container').style.display = 'none';
+    document.getElementById('cfd-container').style.display = 'none';
+}
+
 function showGanttChart() {
+    document.getElementById('task-list-container').style.display = 'none';
     document.getElementById('gantt-chart-container').style.display = 'block';
     document.getElementById('cfd-container').style.display = 'none';
 }
 
 function showCFD() {
+    document.getElementById('task-list-container').style.display = 'none';
     document.getElementById('gantt-chart-container').style.display = 'none';
     document.getElementById('cfd-container').style.display = 'block';
 }
@@ -511,7 +519,15 @@ let projects = {
                 description: 'Testing the GUI Implementation',
                 personInCharge: 'Hazman'
             },
-            // More tasks...
+            {
+                taskName: 'Integration Phase',
+                startDate: '2024-09-06',
+                dueDate: '2024-09-15',
+                status: 'Not Started',
+                progress: 0,
+                description: 'Integrating the components',
+                personInCharge: 'Ali'
+            }
         ],
         'Electrical': [
             {
@@ -532,10 +548,35 @@ let projects = {
                 description: 'Developing the MCU system',
                 personInCharge: 'Anissa'
             },
-            // Tasks for Electrical department...
+            {
+                taskName: 'Wiring Phase',
+                startDate: '2024-08-26',
+                dueDate: '2024-09-05',
+                status: 'Not Started',
+                progress: 0,
+                description: 'Wiring the control units',
+                personInCharge: 'Farid'
+            }
         ],
         'Mechanical': [
-            // Tasks for Mechanical department...
+            {
+                taskName: 'Design phase',
+                startDate: '2024-08-01',
+                dueDate: '2024-08-15',
+                status: 'Completed',
+                progress: 100,
+                description: 'Designing the enclosure',
+                personInCharge: 'Hafiz'
+            },
+            {
+                taskName: 'Fabrication Phase',
+                startDate: '2024-08-16',
+                dueDate: '2024-08-30',
+                status: 'In Progress',
+                progress: 60,
+                description: 'Fabricating the mechanical parts',
+                personInCharge: 'Aiman'
+            }
         ]
     },
     'Project 2': {
@@ -548,10 +589,39 @@ let projects = {
                 progress: 100,
                 description: 'Teach event driven system',
                 personInCharge: 'Jalal'
+            },
+            {
+                taskName: 'Development Phase',
+                startDate: '2024-08-11',
+                dueDate: '2024-08-25',
+                status: 'In Progress',
+                progress: 50,
+                description: 'Developing the MCU system',
+                personInCharge: 'Amirah'
+            },
+        ],
+        'Electrical': [
+            {
+                taskName: 'Study phase',
+                startDate: '2024-08-01',
+                dueDate: '2024-08-10',
+                status: 'Completed',
+                progress: 100,
+                description: 'MCU Port Settings',
+                personInCharge: 'Auni'
             }
         ],
-        'Electrical': [],
-        'Mechanical': []
+        'Mechanical': [
+            {
+                taskName: 'Design phase',
+                startDate: '2024-08-01',
+                dueDate: '2024-08-15',
+                status: 'Completed',
+                progress: 100,
+                description: 'Designing the enclosure',
+                personInCharge: 'Hafiz'
+            }
+        ]
     },
     'Project 3': {
         'Software': [],
