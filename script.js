@@ -71,9 +71,14 @@ function showCFD() {
 
 function closeTaskForm() {
     document.getElementById('task-creation-form').style.display = 'none';
+
+     // Clear the form
+     document.getElementById('task-form').reset();
 }
 
 function popupAddTaskForm() {
+    document.getElementById('add-task-form').style.display = 'block'; //Default task form button display state
+    document.getElementById('save-task-form').style.display = 'none'; //Default task form button display state
     document.getElementById('task-creation-form').style.display = 'block';
 }
 
@@ -665,6 +670,60 @@ function addTask() {
     alert('Task added successfully!');
 }
 
+function editTask(index) {
+    // Get the task to be edited
+    const task = projects[currentProject][currentGroup][index];
+
+    // Populate form with current task details
+    document.getElementById('task-name').value = task.taskName;
+    document.getElementById('start-date').value = task.startDate;
+    document.getElementById('due-date').value = task.dueDate;
+    document.getElementById('status').value = task.status;
+    document.getElementById('description').value = task.description;
+    document.getElementById('person-in-charge').value = task.personInCharge;
+
+    // Display the task form for editing
+    popupAddTaskForm();
+    document.getElementById('save-task-form').style.display = 'block';  //Display save button in task form
+    document.getElementById('add-task-form').style.display = 'none';    //Hide add task button in task form
+
+    // When the form is submitted, update the task
+    document.getElementById('save-task-form').onclick = function() {
+        // Update the task with new values
+        task.taskName = document.getElementById('task-name').value;
+        task.startDate = document.getElementById('start-date').value;
+        task.dueDate = document.getElementById('due-date').value;
+        task.status = document.getElementById('status').value;
+        task.description = document.getElementById('description').value;
+        task.personInCharge = document.getElementById('person-in-charge').value;
+
+        updateTaskList(); // Refresh the task list
+        updateGanttChart(); // Update the Gantt chart
+        updateCFD(); // Update the CFD
+
+        // Clear the form
+        document.getElementById('task-form').reset();
+    
+        closeTaskForm(); // Close the form
+        alert('Task updated successfully!');
+    };
+}
+
+
+function deleteTask(index) {
+    if (confirm('Are you sure you want to delete this task?')) {
+        // Remove the task from the projects object
+        projects[currentProject][currentGroup].splice(index, 1);
+
+        updateTaskList(); // Refresh the task list
+        updateGanttChart(); // Update the Gantt chart
+        updateCFD(); // Update the CFD
+
+        //alert('Task deleted successfully!');
+    }
+}
+
+
 function updateTaskList() {
     const selectedPerson = document.getElementById('personInChargeFilter').value;
     const taskList = document.getElementById('task-list');
@@ -672,7 +731,7 @@ function updateTaskList() {
 
     projects[currentProject][currentGroup]
         .filter(task => selectedPerson === 'all' || task.personInCharge === selectedPerson)
-        .forEach(task => {
+        .forEach((task, index) => {
             const taskItem = document.createElement('div');
             taskItem.className = 'task-item';
             taskItem.innerHTML = `
@@ -682,8 +741,8 @@ function updateTaskList() {
                 <p><strong>Status:</strong> ${task.status}</p>
                 <p><strong>Description:</strong> ${task.description}</p>
                 <p><strong>Person in Charge:</strong> ${task.personInCharge}</p>
-                <button>Edit</button>
-                <button>Delete</button>
+                <button id="edit-task" type="button" onclick="editTask(${index})">Edit</button>
+                <button id="delete-task" type="button" onclick="deleteTask(${index})">Delete</button>
             `;
             taskList.appendChild(taskItem);
         });

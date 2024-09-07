@@ -141,7 +141,8 @@ body {
     cursor: pointer;
 }
 
-#add-task-form {
+#add-task-form,
+#save-task-form {
     background-color: #1b1f1c;
     color: #fff;
     border: none;
