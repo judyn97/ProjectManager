@@ -3,6 +3,7 @@ let currentProject = 'Project 1';
 let currentGroup = 'Software';
 let ganttChartInstance = null;  // Store the chart instance
 let burnUpChartInstance = null;  // Store the chart instance
+let burdenBarInstance = null;  // Store the chart instance
 
 // Event listeners
 document.getElementById('personInChargeFilter').addEventListener('change',() => {
@@ -16,6 +17,7 @@ function selectProject(projectName) {
     updateTaskList();
     updateGanttChart();
     updateCFD();
+    updateBurdenBar();
     populateDropdown();
 }
 
@@ -25,6 +27,7 @@ function selectGroup(groupName) {
     updateTaskList();
     updateGanttChart();
     updateCFD();
+    updateBurdenBar();
     populateDropdown();
 }
 
@@ -55,18 +58,28 @@ function showTaskList() {
     document.getElementById('task-list-container').style.display = 'block';
     document.getElementById('gantt-chart-container').style.display = 'none';
     document.getElementById('cfd-container').style.display = 'none';
+    document.getElementById('task-burden-container').style.display = 'none';
 }
 
 function showGanttChart() {
     document.getElementById('task-list-container').style.display = 'none';
     document.getElementById('gantt-chart-container').style.display = 'block';
     document.getElementById('cfd-container').style.display = 'none';
+    document.getElementById('task-burden-container').style.display = 'none';
 }
 
 function showCFD() {
     document.getElementById('task-list-container').style.display = 'none';
     document.getElementById('gantt-chart-container').style.display = 'none';
     document.getElementById('cfd-container').style.display = 'block';
+    document.getElementById('task-burden-container').style.display = 'none';
+}
+
+function showTaskBurden() {
+    document.getElementById('task-list-container').style.display = 'none';
+    document.getElementById('gantt-chart-container').style.display = 'none';
+    document.getElementById('cfd-container').style.display = 'none';
+    document.getElementById('task-burden-container').style.display = 'block';
 }
 
 function closeTaskForm() {
@@ -83,6 +96,10 @@ function popupAddTaskForm() {
 }
 
 function drawChart() {
+
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
     const selectedPerson = document.getElementById('personInChargeFilter').value;
     const data = {
@@ -293,8 +310,8 @@ function drawChart() {
                                 day: 'd'
                             }
                         },
-                        min: '2024-08-01',
-                        max: '2024-08-31' // Adjust based on your dataset
+                        min: firstDay,
+                        max: lastDay // Adjust based on your dataset
                     }
                 },
                 plugins: {
@@ -464,8 +481,6 @@ function updateCFD() {
 
     const tasks = projects[currentProject][currentGroup];
     if (tasks.length === 0) {
-        console.log("hell");
-        console.log(cfdContainer);
         cfdContainer.innerHTML = '<p>No data to display in CFD.</p>';
     }
     else{
@@ -493,6 +508,78 @@ function updateCFD() {
     cfdContainer.appendChild(cfdChart);
     */
 }
+
+function updateBurdenBar() {
+
+    const burdenbarContainer = document.getElementById('task-burden-container');
+
+    const tasks = projects[currentProject][currentGroup];
+    if (tasks.length === 0) {
+        burdenbarContainer.innerHTML = '<p>No data to display in Burden Bar.</p>';
+    }
+    else{
+        burdenbarContainer.innerHTML = '<canvas id="taskChart"></canvas>';
+    }
+
+    let personTaskCount = {}; // Object to store task count for each person
+
+    // Loop through the current project and group tasks
+    projects[currentProject][currentGroup].forEach(task => {
+        let person = task.personInCharge;
+
+        // If the person is already in the object, increment the count
+        if (personTaskCount[person]) {
+            personTaskCount[person]++;
+        } else {
+            // Otherwise, initialize their task count
+            personTaskCount[person] = 1;
+        }
+    });
+
+    // Extract the person names and task counts for the chart
+    const people = Object.keys(personTaskCount);
+    const taskCounts = people.map(person => personTaskCount[person]);
+
+    // Create or update the bar chart
+    const ctx = document.getElementById('taskChart').getContext('2d');
+
+    // Find the highest task count
+    const maxTaskCount = Math.max(...taskCounts);
+
+    // If a chart instance already exists, destroy it to avoid duplication
+    if (burdenBarInstance) {
+        burdenBarInstance.destroy();
+    }
+
+    // Create a new bar chart
+    burdenBarInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: people,
+            datasets: [{
+                label: 'Ongoing Tasks',
+                data: taskCounts,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                            ticks: {
+                                stepSize: 1 // Increment by 1
+                            },
+                            suggestedMax: maxTaskCount + 5 // Suggest the Y-axis scale to be 5 more than the highest task count
+                }
+            }
+        }
+    });
+}
+
+
 
 let projects = {
     'Project 1': {
@@ -662,6 +749,7 @@ function addTask() {
     updateTaskList();
     updateGanttChart();
     updateCFD();
+    updateBurdenBar();
 
     // Clear the form
     document.getElementById('task-form').reset();
@@ -700,6 +788,7 @@ function editTask(index) {
         updateTaskList(); // Refresh the task list
         updateGanttChart(); // Update the Gantt chart
         updateCFD(); // Update the CFD
+        updateBurdenBar();
 
         // Clear the form
         document.getElementById('task-form').reset();
@@ -718,6 +807,7 @@ function deleteTask(index) {
         updateTaskList(); // Refresh the task list
         updateGanttChart(); // Update the Gantt chart
         updateCFD(); // Update the CFD
+        updateBurdenBar();
 
         //alert('Task deleted successfully!');
     }

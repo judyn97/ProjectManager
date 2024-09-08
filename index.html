@@ -70,6 +70,7 @@
                 <button onclick="showTaskList()">Task List</button>
                 <button onclick="showGanttChart()">Gantt Chart</button>
                 <button onclick="showCFD()">Burnt-Up Chart</button>
+                <button onclick="showTaskBurden()">Burden Bar</button>
             </div>
             <div id="task-list-container" style="display: block;">
                 
@@ -96,6 +97,10 @@
                 <div id="BUchartBox" class="chartBox">
                     <canvas id="burnUpChart"></canvas>
                 </div>
+            </div>
+            <div id="task-burden-container" style="display: none;">
+                <h2>Task Burden</h2>
+                <canvas id="taskChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>

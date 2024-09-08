@@ -71,6 +71,7 @@ body {
     background-color: #0056b3;
 }
 
+/*
 #gantt-chart-container, #cfd-container {
     margin-top: 20px;
     background-color: #eaeaea;
@@ -78,7 +79,7 @@ body {
     min-height: 300px;
     overflow-x: auto; /* Enables horizontal scrolling */
 }
-
+*/
 #popup-add-task-form {
     margin-bottom: 15px;
 }
