@@ -62,16 +62,23 @@
     </div>
     <div class="content-container">
         <div class="left-sidebar">
-            
+           <aside>
+                <div class="sidenav">
+                    <a href="#dashboard">Dashboard</a>
+                    <a href="#task" onclick="showTaskList()">Task</a>
+                    <button class="dropdown-btn">Analytics
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-container">
+                      <a href="#" onclick="showGanttChart()">Gantt Chart</a>
+                      <a href="#" onclick="showCFD()">Burnt-Up Chart</a>
+                      <a href="#" onclick="showTaskBurden()">Task Burden</a>
+                    </div>
+                </div>
+           </aside>
         </div>
-        
+
         <div class="main-body">
-            <div class="view-selector">
-                <button onclick="showTaskList()">Task List</button>
-                <button onclick="showGanttChart()">Gantt Chart</button>
-                <button onclick="showCFD()">Burnt-Up Chart</button>
-                <button onclick="showTaskBurden()">Burden Bar</button>
-            </div>
             <div id="task-list-container" style="display: block;">
                 
                 <h2>Task List</h2>
