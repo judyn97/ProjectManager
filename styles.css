@@ -296,7 +296,28 @@ body {
 .chartBox {
   width: 1rel;  /*Change later*/
   padding: 20px;
-  border-radius: 20px;
-  border: solid 3px rgba(54, 162, 235, 1);
   background: white;
+}
+
+
+/* Task List Table Style */
+table{
+    width: 100%;
+    table-layout: fixed;
+    min-width: 1000px;
+}
+
+thread th{
+    position: sticky;
+    top: 0;
+    background-color: #f6f9fc;
+    color: #8493a5;
+    font-size: 15px;
+}
+
+th, td{
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 20px;
+    word-break: break-all;
+    text-align: center;
 }

@@ -816,25 +816,38 @@ function deleteTask(index) {
 
 function updateTaskList() {
     const selectedPerson = document.getElementById('personInChargeFilter').value;
-    const taskList = document.getElementById('task-list');
-    taskList.innerHTML = ''; // Clear current task list
+    const taskListTable = document.getElementById('task-list-table-data');
+    taskListTable.innerHTML = ''; // Clear current task list
 
     projects[currentProject][currentGroup]
         .filter(task => selectedPerson === 'all' || task.personInCharge === selectedPerson)
         .forEach((task, index) => {
-            const taskItem = document.createElement('div');
-            taskItem.className = 'task-item';
-            taskItem.innerHTML = `
-                <h3>${task.taskName}</h3>
-                <p><strong>Start Date:</strong> ${task.startDate}</p>
-                <p><strong>Due Date:</strong> ${task.dueDate}</p>
-                <p><strong>Status:</strong> ${task.status}</p>
-                <p><strong>Description:</strong> ${task.description}</p>
-                <p><strong>Person in Charge:</strong> ${task.personInCharge}</p>
-                <button id="edit-task" type="button" onclick="editTask(${index})">Edit</button>
-                <button id="delete-task" type="button" onclick="deleteTask(${index})">Delete</button>
+            const taskTableData = document.getElementById('task-list-table-data');
+            let row = taskTableData.insertRow();
+
+            let personInChargeCell = row.insertCell();
+            personInChargeCell.innerHTML =`<td>${task.personInCharge}</td>`;
+
+            let taskNameCell = row.insertCell();
+            taskNameCell.innerHTML =`<td>${task.taskName}</td>`;
+
+            let startDateCell = row.insertCell();
+            startDateCell.innerHTML =`<td>${task.startDate}</td>`;
+
+            let dueDateCell = row.insertCell();
+            dueDateCell.innerHTML =`<td>${task.dueDate}</td>`;
+
+            let statusCell = row.insertCell();
+            statusCell .innerHTML =`<td><strong>${task.status}</strong></td>`;
+
+            let progressCell = row.insertCell();
+            progressCell .innerHTML =`<td>${task.progress}</td>`;
+
+            let deleteCell = row.insertCell();
+            deleteCell .innerHTML =`
+            <td><button id="edit-task" type="button" onclick="editTask(${index})">Edit</button></td>
+            <td><button id="delete-task" type="button" onclick="deleteTask(${index})">Delete</button></td>
             `;
-            taskList.appendChild(taskItem);
         });
 }
 

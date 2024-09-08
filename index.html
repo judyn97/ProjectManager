@@ -79,9 +79,21 @@
                     <option value="all">All</option>
                 </select>
                 <button id="popup-add-task-form" type="button" onclick="popupAddTaskForm()">Add Task</button>
-                <div id="task-list">
-                    <!-- Task list will be dynamically updated here -->
-                </div>
+                <table id="task-list-table">
+                    <thead>
+                        <tr>
+                            <th>PIC</th>
+                            <th style="width:30%;">Task</th>
+                            <th>Start Date</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th style="width:8%;">Percentage</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-list-table-data">
+                    </tbody>
+                </table>
             </div>
             <div id="gantt-chart-container" style="display: none;">
                 <div class="chartCard">
