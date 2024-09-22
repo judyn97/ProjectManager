@@ -21,19 +21,6 @@ body{
     box-sizing: inherit;
 }
 
-header, common-header{
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 13px 3%;
-    background: #6f3870;
-}
-
 footer, common-footer{
     position: absolute;
     right: 0;
@@ -54,36 +41,6 @@ footer, common-footer{
     color: white;
 }
 
-.navlist{
-    display: flex;
-}
-
-.navlist a{
-    color: white;
-    margin-left: 60px;
-    font-size: 15px;
-    font-weight: 600;
-    border-bottom: 2px solid transparent;
-    transition: all .55s ease;
-    -webkit-transition: all .55s ease;
-    -moz-transition: all .55s ease;
-    -ms-transition: all .55s ease;
-    -o-transition: all .55s ease;
-}
-
-.navlist a:hover{
-
-    border-bottom: 2px solid white;
-}
-
-#menu-icon{
-    color: white;
-    font-size: 35px;
-    z-index: 10001;
-    cursor: pointer;
-    display: none;
-}
-
 .main{
     position: absolute;
     width: 98%;
@@ -93,46 +50,4 @@ footer, common-footer{
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-}
-
-@media (max-width: 1535px){
-    header{
-        padding: 15px 3%;
-        transition: .2s;
-        -webkit-transition: .2s;
-        -moz-transition: .2s;
-        -ms-transition: .2s;
-        -o-transition: .2s;
-    }
-}
-
-@media (max-width:990px){
-    #menu-icon{
-        display: block;
-    }
-    .navlist{
-        position: absolute;
-        top:100%;
-        right: -100%;
-        width: 300px;
-        height: 40vh;
-        background: #954d82;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        padding: 50px 20px;
-        transition: all .55s ease;
-        -webkit-transition: all .55s ease;
-        -moz-transition: all .55s ease;
-        -ms-transition: all .55s ease;
-        -o-transition: all .55s ease;
-    }
-    .navlist a{
-        margin-left: 0;
-        display: block;
-        margin:  7px 0;
-    }
-    .navlist.open{
-        right:0;
-    }
 }

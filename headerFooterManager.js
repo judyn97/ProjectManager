@@ -1,3 +1,5 @@
+import {dropdownButtonClicked } from "./header-navbar-dropdown.js";
+
 class SpecialHeader extends HTMLElement {
     connectedCallback(){
         this.innerHTML = `
@@ -6,7 +8,29 @@ class SpecialHeader extends HTMLElement {
             </div>
 
             <div class="top-nav-middle-section">
-                Test
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">Project 1</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">Project 1</li>
+                        <li>Project 2</li>
+                        <li>Project 3</li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <div class="select">
+                        <span class="selected">Software</span>
+                        <div class="caret"></div>
+                    </div>
+                    <ul class="menu">
+                        <li class="active">Software</li>
+                        <li>Electrical</li>
+                        <li>Mechanical</li>
+                        <li>Collaboration</li>
+                    </ul>
+                </div>
             </div>
 
             <div class="top-nav-right-section">
@@ -32,3 +56,6 @@ class SpecialFooter extends HTMLElement {
 
 customElements.define('common-header', SpecialHeader)
 customElements.define('common-footer', SpecialFooter)
+
+//Init
+dropdownButtonClicked();
