@@ -17,17 +17,7 @@
       <link rel="stylesheet" href="task-form-styles.css">
     </head>
     <body>
-        <header>
-            <a href="project-manager.html" class="logo">PIDISHI Project Manager</a>
-
-            <ul class="navlist">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="task-list.html">Task</a></li>
-                <li><a href="gantt-chart.html">Analytics</a></li>
-            </ul>
-
-            <div class="bx bx-menu" id="menu-icon"></div>
-        </header>
+        <common-header></common-header>
         <div class="main">
             <div class="task-creation-form" id="task-creation-form">
                 <h2>Create New Task</h2>
@@ -87,9 +77,8 @@
             </div>
         </div>
 
-        <footer>
-            Created by Jalaludin Zakaria
-        </footer>
+        <common-footer></common-footer>
         <script src="task-list.js"></script>
+        <script src="headerFooterManager.js"></script>
     </body>
 </html>

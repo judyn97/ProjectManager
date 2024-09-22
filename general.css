@@ -7,7 +7,7 @@
     text-decoration: none;
 }
 
-header{
+header, common-header{
     position: fixed;
     right: 0;
     top: 0;
@@ -20,7 +20,7 @@ header{
     background: transparent;
 }
 
-footer{
+footer, common-footer{
     position: fixed;
     right: 0;
     bottom: 0;
@@ -60,6 +60,11 @@ body{
     -moz-transition: all .55s ease;
     -ms-transition: all .55s ease;
     -o-transition: all .55s ease;
+}
+
+.navlist a:hover{
+
+    border-bottom: 2px solid white;
 }
 
 #menu-icon{

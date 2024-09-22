@@ -16,17 +16,7 @@
       <link rel="stylesheet" href="gantt-chart-styles.css">
     </head>
     <body>
-        <header>
-            <a href="project-manager.html" class="logo">PIDISHI Project Manager</a>
-
-            <ul class="navlist">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="task-list.html">Task</a></li>
-                <li><a href="analytics.html">Analytics</a></li>
-            </ul>
-
-            <div class="bx bx-menu" id="menu-icon"></div>
-        </header>
+        <common-header></common-header>
         <div class="main">
             <div id="gantt-chart-container">
                 <div class="chartCard">
@@ -40,9 +30,8 @@
             </div>
         </div>
 
-        <footer>
-            Created by Jalaludin Zakaria
-        </footer>
+        <common-footer></common-footer>
         <script src="gantt-chart.js"></script>
+        <script src="headerFooterManager.js"></script>
     </body>
 </html>
