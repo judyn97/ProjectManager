@@ -7,6 +7,20 @@
     text-decoration: none;
 }
 
+html{
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body{
+    position: relative;
+    background: #6f3870;
+    display:flex;
+    margin-top: 15px;
+    min-height: 100%;
+    box-sizing: inherit;
+}
+
 header, common-header{
     position: fixed;
     right: 0;
@@ -16,12 +30,12 @@ header, common-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 33px 9%;
-    background: transparent;
+    padding: 13px 3%;
+    background: #6f3870;
 }
 
 footer, common-footer{
-    position: fixed;
+    position: absolute;
     right: 0;
     bottom: 0;
     z-index: 1000;
@@ -30,13 +44,8 @@ footer, common-footer{
     align-items: center;
     justify-content: center;
     padding: 23px;
-    background: transparent;
-
+    align-self: flex-end;
     color: white;
-}
-
-body{
-    background: #6f3870;
 }
 
 .logo{
@@ -76,7 +85,7 @@ body{
 }
 
 .main{
-    position: fixed;
+    position: absolute;
     width: 98%;
     border-radius: 5px;
     margin: 70px 15px 15px 15px;
