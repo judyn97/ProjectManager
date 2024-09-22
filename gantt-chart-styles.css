@@ -1,0 +1,53 @@
+/* Chart JS */
+.chartMenu {
+    width: 100vw;
+    height: 40px;
+    background: #1A1A1A;
+    color: rgba(54, 162, 235, 1);
+  }
+  .chartMenu p {
+    padding: 10px;
+    font-size: 20px;
+  }
+
+  .chartBox {
+    width: 1rel;  /*Change later*/
+    padding: 20px;
+    background: white;
+  }
+
+  /* Gantt styles */
+.gantt-grid {
+    display: grid;
+    grid-auto-flow: column; /* Ensure the grid expands horizontally */
+    grid-template-rows: auto;
+    width: max-content; /* Ensure the grid takes only as much space as needed */
+    background-color: #ddd;
+    border: 1px solid #bbb;
+    margin-bottom: 20px;
+}
+
+.gantt-day {
+    padding: 10px;
+    border-right: 1px solid #bbb;
+    text-align: center;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.gantt-task {
+    grid-row: 2;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #0056b3;
+    border-radius: 5px;
+    margin: 5px 0;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+#gantt-chart-container {
+    overflow-x: auto; /* Ensure the container scrolls horizontally */
+    overflow-y: hidden;
+    white-space: nowrap; /* Prevent wrapping inside the container */
+}
