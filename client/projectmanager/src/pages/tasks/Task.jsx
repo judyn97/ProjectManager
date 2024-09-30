@@ -3,8 +3,10 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import DataTable from '../../components/dataTable/dataTable';
+import AddTask from './AddTask';
 
 function TaskList(){
+    const [open, setOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
 
     useEffect(()=> {
@@ -12,8 +14,6 @@ function TaskList(){
             try{
                 const res = await axios.get("http://localhost:8800/tasks");
                 setTasks(res.data);
-                console.log(res.data.person_in_charge)
-                console.log(res.data)
             }catch(err){
                 console.log(err);
             }
@@ -22,7 +22,7 @@ function TaskList(){
     }, [])
 
     const columns = [
-        { field: 'task_id', headerName: 'ID', width: 90 },
+        // { field: 'task_id', headerName: 'ID', width: 90 },
         {
           field: 'person_in_charge',
           headerName: 'PIC',
@@ -70,16 +70,12 @@ function TaskList(){
         <div className="task-list-container">
             <div className="info">
                 <h2>Task List</h2>
-                <select id="personInChargeFilter">
-                    <option value="all">All</option>
-                </select>
-                <button id="popup-add-task-form" type="button">
-                    <Link to="/AddTask">
+                <button onClick={()=> setOpen(true)}>
                     Add Task
-                    </Link>
                 </button>
             </div>
             <DataTable columns={columns} rows={tasks}/>
+            {open && <AddTask slug="AddTask" columns={columns} setOpen={setOpen}/>}
         </div>
     );
 }
