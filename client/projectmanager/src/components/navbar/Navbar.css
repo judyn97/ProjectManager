@@ -1,0 +1,36 @@
+.navbar{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo{
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        gap: 10px;
+    }
+
+    .icons{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .user{
+            display: flex;
+            align-items: center;
+            img{
+                width: 26px;
+                height: 26px;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                -ms-border-radius: 50%;
+                -o-border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,22 @@
+.home{
+
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minmax(180px, auto);
+
+    .box{
+        padding: 20px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        border: 1px solid #384256;
+    }
+
+    .box1{
+        grid-column: span 1;
+        grid-row: span 3;
+    }
+}

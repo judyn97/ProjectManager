@@ -1,21 +1,79 @@
-import { useState } from 'react'
-import './App.css'
-import TaskList from "./pages/Task"
-import AddTask from "./pages/AddTask"
+import { useState } from 'react';
+import './styles/global.css';
+import TaskList from "./pages/tasks/Task.jsx";
+import AddTask from "./pages/tasks/AddTask.jsx";
+import Login from "./pages/login/Login.jsx";
+import Navbar from "./components/navbar/Navbar.jsx";
+import Footer from "./components/footer/Footer.jsx";
+import Menu from "./components/menu/Menu.jsx";
+import Home from "./pages/home/Home.jsx";
 
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {createBrowserRouter, BrowserRouter, Routes, Route, RouterProvider, Outlet} from "react-router-dom";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const Layout = () =>{
+    return(
+      <div className='main'>
+        <Navbar/>
+        <div className="container">
+          <div className="menuContainer">
+            <Menu/>
+          </div>
+          <div className="contentContainer">
+            <QueryClientProvider client={queryClient}>
+              <Outlet />
+            </QueryClientProvider>
+          </div>
+        </div>
+        <Footer/>
+      </div>
+    );
+  }
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/Task",
+          element: <TaskList />,
+        },
+        {
+          path: "/AddTask",
+          element: <AddTask />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+  ]);
 
   return (
     <div className='App'>
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Layout/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
           <Route path='/' element={<TaskList/>}/>
           <Route path='/AddTask' element={<AddTask/>}/>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
+      <RouterProvider router={router} />
     </div>
   )
 }
