@@ -55,6 +55,22 @@ app.delete("/tasks/:id", (req,res)=>{
     })
 })
 
+app.get("/projects", (req,res)=>{
+    const q = "SELECT * FROM projects"
+    db.query(q,(err,data)=>{
+        if(err) return res.json(err)
+        return res.json(data)
+    })
+})
+
+app.get("/departments", (req,res)=>{
+    const q = "SELECT * FROM departments"
+    db.query(q,(err,data)=>{
+        if(err) return res.json(err)
+        return res.json(data)
+    })
+})
+
 app.listen(8800, () =>{
     console.log("Connected");
 })
