@@ -1,11 +1,10 @@
 import './Task.css';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
 import DataTable from '../../components/dataTable/dataTable';
 import AddTask from './AddTask';
 
-function TaskList({ selectedProject, selectedDepartment }){
+function TaskList({ selectedProjectId, selectedDepartmentId }){
     const [open, setOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
 
@@ -13,24 +12,19 @@ function TaskList({ selectedProject, selectedDepartment }){
         const fetchAllTasks = async ()=>{
             try{
                 const res = await axios.get("http://localhost:8800/tasks");
-                console.log("Fetched tasks:", res.data);
-                console.log("selectedProject:", selectedProject);
                 const filteredTasks = res.data.filter(
                   item => 
-                    item.project_id === selectedProject
-                );
-                
-                console.log("Filtered tasks:", filteredTasks);
+                    item.project_id === selectedProjectId && item.department_id === selectedDepartmentId
+                );                
                 setTasks(filteredTasks);
             }catch(err){
                 console.log(err);
             }
         }
-        if (selectedProject && selectedDepartment) {
+        if (selectedProjectId && selectedDepartmentId) {
             fetchAllTasks();
-            console.log("runn")
           }
-    }, [selectedProject, selectedDepartment])
+    }, [selectedProjectId, selectedDepartmentId])
 
     const columns = [
         // { field: 'task_id', headerName: 'ID', width: 90 },
@@ -86,7 +80,7 @@ function TaskList({ selectedProject, selectedDepartment }){
                 </button>
             </div>
             <DataTable columns={columns} rows={tasks}/>
-            {open && <AddTask slug="AddTask" columns={columns} setOpen={setOpen}/>}
+            {open && <AddTask slug="AddTask" columns={columns} setOpen={setOpen} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>}
         </div>
     );
 }

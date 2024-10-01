@@ -41,8 +41,8 @@ const Navbar = (props) => {
             <span>Pidishi Project Manager</span>
         </div>
         <div className="project-group">
-            <Dropdown items={projects.map(project => project.project_name)} selectedItem={props.selectedProject} setSelectedItem={props.setSelectedProject}/>
-            <Dropdown items={departments.map(department => department.department_name)} selectedItem={props.selectedDepartment} setSelectedItem={props.setSelectedDepartment} />
+            <Dropdown items={projects} selectedItem={props.selectedProject} setSelectedItem={props.setSelectedProject} setSelectedItemId={props.setSelectedProjectId}/>
+            <Dropdown items={departments} selectedItem={props.selectedDepartment} setSelectedItem={props.setSelectedDepartment} setSelectedItemId={props.setSelectedDepartmentId}/>
         </div>
         <div className="icons">
             <img src="" alt="" className="icon"/>

@@ -1,11 +1,12 @@
 import './AddTask.css';
 import {useState} from 'react';
 import axios from 'axios';
-import { useNavigate, Link  } from "react-router-dom";
 
 function AddTask(props){
 
     const[addTask, setAddTask] = useState({
+        project_id: props.selectedProjectId,
+        department_id: props.selectedDepartmentId,
         task_name:"",
         start_date:"",
         due_date:"",
@@ -15,11 +16,9 @@ function AddTask(props){
         person_in_charge:""
     })
 
-    const navigate = useNavigate();
-
     const handleChange = (e) => {
         setAddTask((prev) => ({...prev, [e.target.name]:e.target.value}));
-        console.log(addTask);
+        console.log("Add Task: ", addTask);
     }
 
     const handleClick = async e => {

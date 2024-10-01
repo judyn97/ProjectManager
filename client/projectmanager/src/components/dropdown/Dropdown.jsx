@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-function Dropdown({ items, selectedItem, setSelectedItem }) {
+function Dropdown({ items, selectedItem, setSelectedItem, setSelectedItemId }) {
     const [isOpen, setIsOpen] = useState(false); // Tracks if the dropdown is open
 
-    const handleSelect = (item) => {
+    const handleSelect = (item, itemId) => {
         setSelectedItem(item);
+        setSelectedItemId(itemId);
         setIsOpen(false); // Close the dropdown menu after selecting
     };
 
@@ -22,10 +23,10 @@ function Dropdown({ items, selectedItem, setSelectedItem }) {
                 {items.map((item, index) => (
                     <li
                         key={index}
-                        className={selectedItem === item ? 'active' : ''}
-                        onClick={() => handleSelect(item)}
+                        className={selectedItem === item.project_name || item.department_name ? 'active' : ''}
+                        onClick={() => handleSelect(item.project_name || item.department_name, item.project_id || item.department_id)}
                     >
-                        {item}
+                        {item.project_name || item.department_name}
                     </li>
                 ))}
             </ul>

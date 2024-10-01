@@ -19,6 +19,8 @@ const queryClient = new QueryClient();
 function App() {
   const [selectedProject, setSelectedProject] = useState('Select a project');
   const [selectedDepartment, setSelectedDepartment] = useState('Select a department');
+  const [selectedProjectId, setSelectedProjectId] = useState(0);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState(0);
 
   const Layout = () =>{
     return(
@@ -26,7 +28,9 @@ function App() {
         <Navbar selectedProject={selectedProject}
                 setSelectedProject={setSelectedProject}
                 selectedDepartment={selectedDepartment}
-                setSelectedDepartment={setSelectedDepartment}/>
+                setSelectedDepartment={setSelectedDepartment}
+                setSelectedProjectId={setSelectedProjectId}
+                setSelectedDepartmentId={setSelectedDepartmentId}/>
         <div className="container">
           <div className="menuContainer">
             <Menu/>
@@ -53,7 +57,7 @@ function App() {
         },
         {
           path: "/Task",
-          element: <TaskList selectedProject={selectedProject} selectedDepartment={selectedDepartment}/>,
+          element: <TaskList selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
         },
         {
           path: "/AddTask",
