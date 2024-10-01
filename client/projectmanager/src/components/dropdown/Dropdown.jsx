@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-function Dropdown({ items, defaultSelected }) {
-    const [selectedItem, setSelectedItem] = useState(defaultSelected || items[0]);
+function Dropdown({ items, selectedItem, setSelectedItem }) {
     const [isOpen, setIsOpen] = useState(false); // Tracks if the dropdown is open
 
     const handleSelect = (item) => {

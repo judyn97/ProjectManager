@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Dropdown from "../dropdown/Dropdown";
 
-const Navbar = () => {
+const Navbar = (props) => {
 
     const [projects, setProjects] = useState([]);
     const [departments, setDepartments] = useState([]);
-
+    
     useEffect(()=> {
         const fetchAllProjects = async ()=>{
             try{
@@ -41,8 +41,8 @@ const Navbar = () => {
             <span>Pidishi Project Manager</span>
         </div>
         <div className="project-group">
-            <Dropdown items={projects.map(project => project.project_name)} defaultSelected="Select a project"/>
-            <Dropdown items={departments.map(department => department.department_name)} defaultSelected="Select a department"/>
+            <Dropdown items={projects.map(project => project.project_name)} selectedItem={props.selectedProject} setSelectedItem={props.setSelectedProject}/>
+            <Dropdown items={departments.map(department => department.department_name)} selectedItem={props.selectedDepartment} setSelectedItem={props.setSelectedDepartment} />
         </div>
         <div className="icons">
             <img src="" alt="" className="icon"/>

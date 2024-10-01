@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import DataTable from '../../components/dataTable/dataTable';
 import AddTask from './AddTask';
 
-function TaskList(){
+function TaskList({ selectedProject, selectedDepartment }){
     const [open, setOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
 
@@ -13,13 +13,24 @@ function TaskList(){
         const fetchAllTasks = async ()=>{
             try{
                 const res = await axios.get("http://localhost:8800/tasks");
-                setTasks(res.data);
+                console.log("Fetched tasks:", res.data);
+                console.log("selectedProject:", selectedProject);
+                const filteredTasks = res.data.filter(
+                  item => 
+                    item.project_id === selectedProject
+                );
+                
+                console.log("Filtered tasks:", filteredTasks);
+                setTasks(filteredTasks);
             }catch(err){
                 console.log(err);
             }
         }
-        fetchAllTasks();
-    }, [])
+        if (selectedProject && selectedDepartment) {
+            fetchAllTasks();
+            console.log("runn")
+          }
+    }, [selectedProject, selectedDepartment])
 
     const columns = [
         // { field: 'task_id', headerName: 'ID', width: 90 },

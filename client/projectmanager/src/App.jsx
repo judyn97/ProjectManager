@@ -17,12 +17,16 @@ import {
 const queryClient = new QueryClient();
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [selectedProject, setSelectedProject] = useState('Select a project');
+  const [selectedDepartment, setSelectedDepartment] = useState('Select a department');
 
   const Layout = () =>{
     return(
       <div className='main'>
-        <Navbar/>
+        <Navbar selectedProject={selectedProject}
+                setSelectedProject={setSelectedProject}
+                selectedDepartment={selectedDepartment}
+                setSelectedDepartment={setSelectedDepartment}/>
         <div className="container">
           <div className="menuContainer">
             <Menu/>
@@ -49,7 +53,7 @@ function App() {
         },
         {
           path: "/Task",
-          element: <TaskList />,
+          element: <TaskList selectedProject={selectedProject} selectedDepartment={selectedDepartment}/>,
         },
         {
           path: "/AddTask",

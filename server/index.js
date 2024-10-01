@@ -29,8 +29,8 @@ app.get("/tasks", (req,res)=>{
 app.post("/tasks", (req,res)=>{
     const q = "INSERT INTO tasks (`project_id`,`department_id`, `task_name`, `start_date`, `due_date`, `status`,  `progress`, `description`, `person_in_charge`) VALUES (?);";
     const values = [
-        "1",
-        "1",
+        req.body.project_id,
+        req.body.department_id,
         req.body.task_name,
         req.body.start_date,
         req.body.due_date,
