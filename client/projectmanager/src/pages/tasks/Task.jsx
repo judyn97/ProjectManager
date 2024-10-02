@@ -1,34 +1,14 @@
 import './Task.css';
-import {useState, useEffect} from 'react';
-import axios from 'axios';
+import {useState} from 'react';
 import DataTable from '../../components/dataTable/dataTable';
 import AddTask from './AddTask';
 import EditTask from './EditTask';
 
-function TaskList({ selectedProjectId, selectedDepartmentId }){
+function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks }){
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
 
-  const fetchAllTasks = async () => {
-    try {
-      const res = await axios.get("http://localhost:8800/tasks");
-      const filteredTasks = res.data.filter(
-        item =>
-          item.project_id === selectedProjectId && item.department_id === selectedDepartmentId
-      );
-      setTasks(filteredTasks);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedProjectId && selectedDepartmentId) {
-      fetchAllTasks();
-    }
-  }, [selectedProjectId, selectedDepartmentId]);
 
   const formatDate = (dateString) => {
     if (!dateString) return '';

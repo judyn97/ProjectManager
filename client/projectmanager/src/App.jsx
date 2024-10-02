@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './styles/global.css';
+import TaskBoard from "./pages/board/TaskBoard.jsx";
 import TaskList from "./pages/tasks/Task.jsx";
 import AddTask from "./pages/tasks/AddTask.jsx";
 import Login from "./pages/login/Login.jsx";
@@ -21,6 +23,28 @@ function App() {
   const [selectedDepartment, setSelectedDepartment] = useState('Select a department');
   const [selectedProjectId, setSelectedProjectId] = useState(0);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(0);
+  const [tasks, setTasks] = useState([]);
+
+
+  const fetchAllTasks = async () => {
+    try {
+      const res = await axios.get("http://localhost:8800/tasks");
+      const filteredTasks = res.data.filter(
+        item =>
+          item.project_id === selectedProjectId && item.department_id === selectedDepartmentId
+      );
+      setTasks(filteredTasks);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedProjectId && selectedDepartmentId) {
+      fetchAllTasks();
+    }
+  }, [selectedProjectId, selectedDepartmentId]);
+
 
   const Layout = () =>{
     return(
@@ -57,7 +81,7 @@ function App() {
         },
         {
           path: "/Task",
-          element: <TaskList selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
+          element: <TaskList tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks}/>,
         },
         {
           path: "/AddTask",
