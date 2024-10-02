@@ -91,6 +91,7 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
           slug="AddTask"
           columns={columns}
           setOpen={setOpen}
+          onUpdate={fetchAllTasks}
           selectedProjectId={selectedProjectId}
           selectedDepartmentId={selectedDepartmentId}
         />

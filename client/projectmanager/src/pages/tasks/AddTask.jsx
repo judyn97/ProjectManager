@@ -26,7 +26,7 @@ function AddTask(props){
         try {
             await axios.post("http://localhost:8800/tasks", addTask);
             props.setOpen(false);
-            window.location.reload();
+            props.onUpdate();
         } catch (error) {
             console.log(error)
         }
