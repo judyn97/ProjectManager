@@ -1,20 +1,18 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import './dataTable.css';
-import { Link } from "react-router-dom";
 import axios from 'axios';
 import editIcon from '../../assets/edit.svg';
 import deleteIcon from '../../assets/delete.svg';
 
-const DataTable = (props) => {
-
+const DataTable = ({ rows, columns, onEdit, onDelete }) => {
     const handleDelete = async (id)=>{
         try {
             await axios.delete("http://localhost:8800/tasks/"+id);
-            window.location.reload(); //In the future use redux
+            onDelete();
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const actionColumn = {
         field:"action",
@@ -23,21 +21,23 @@ const DataTable = (props) => {
         renderCell:(params)=>{
             return(
                 <div className="action">
-                    <Link to={`/${props.slug}/${params.row.task_id}`}>
-                        <img src={editIcon} alt=""/>
-                    </Link>
-                    <div className="delete" style={{color: "red"}}>
+                    <div className="edit">
+                        <img src={editIcon} alt="" onClick={() => onEdit(params.row)}/>
+                    </div>
+                    <div className="delete">
                         <img src={deleteIcon} alt="" onClick={()=>handleDelete(params.row.task_id)}/>
                     </div>
                 </div>
             )
         }
     }
+
   return (
     <div className='dataTable'>
-        <DataGrid className="dataGrid"
-        rows={props.rows}
-        columns={[...props.columns, actionColumn]}
+        <DataGrid 
+        className="dataGrid"
+        rows={rows}
+        columns={[...columns, actionColumn]}
         getRowId={(row) => row.task_id}
         initialState={{
           pagination: {
