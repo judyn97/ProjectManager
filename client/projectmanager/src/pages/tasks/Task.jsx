@@ -26,7 +26,7 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
         {
           field: 'task_name',
           headerName: 'Task name',
-          width: 150,
+          width: 500,
           editable: true,
         },
         {

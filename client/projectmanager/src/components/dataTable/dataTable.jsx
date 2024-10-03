@@ -54,7 +54,7 @@ const DataTable = ({ rows, columns, onEdit, onDelete }) => {
             }
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
+        disableCheckboxSelection
         disableRowSelectionOnClick
         disableColumnFilter
         disableDensitySelector

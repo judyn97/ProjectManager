@@ -41,7 +41,13 @@ function AddTask(props){
                     {props.columns.map((column)=>(
                         <div className="item" key={column.id}>
                             <label>{column.headerName}</label>
-                            <input type={column.type} placeholder={column.field} onChange={handleChange} name={column.field} required/>
+                            {column.type === "singleSelect" ? 
+                            <select name={column.headerName} value={addTask.status} onChange={handleChange} required> 
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Done">Done</option>
+                            </select> :
+                            <input type={column.type} placeholder={column.headerName} onChange={handleChange} name={column.field} required/> }
                         </div>
                     ))}
                     <button>Add Task</button>

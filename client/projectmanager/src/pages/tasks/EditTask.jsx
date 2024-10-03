@@ -43,6 +43,12 @@ function EditTask({ task, columns, setOpen, onUpdate }) {
           {columns.map((column) => (
             <div className="item" key={column.field}>
               <label htmlFor={column.field}>{column.headerName}</label>
+              {column.type === "singleSelect" ? 
+                <select name={column.field} value={editTask.status} onChange={handleChange} required> 
+                    <option value="Not Started">Not Started</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                </select> :
               <input
                 id={column.field}
                 type={column.type === 'date' ? 'date' : 'text'}
@@ -50,7 +56,7 @@ function EditTask({ task, columns, setOpen, onUpdate }) {
                 value={editTask[column.field] || ''}
                 onChange={handleChange}
                 required={column.field !== 'progress'}
-              />
+              />}
             </div>
           ))}
           <button type="submit">Update Task</button>
