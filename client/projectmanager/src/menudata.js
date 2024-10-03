@@ -32,7 +32,7 @@ export const menu= [
             {
                 id: 1,
                 title: "Gantt Chart",
-                url: "/",
+                url: "/GanttChart",
                 icon:""
             },
 

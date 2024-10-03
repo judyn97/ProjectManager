@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/global.css';
+import GanttChart from "./pages/gantt/GanttChart.jsx";
 import TaskBoard from "./pages/board/TaskBoard.jsx";
 import TaskList from "./pages/tasks/Task.jsx";
 import AddTask from "./pages/tasks/AddTask.jsx";
@@ -86,6 +87,10 @@ function App() {
         {
           path: "/AddTask",
           element: <AddTask />,
+        },
+        {
+          path: "/GanttChart",
+          element: <GanttChart tasks={tasks} />,
         },
       ],
     },

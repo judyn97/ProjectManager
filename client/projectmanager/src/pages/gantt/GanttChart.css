@@ -1,0 +1,23 @@
+.gantt-container {
+    max-width: 1700px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    color: black;
+
+    ._3lLk3,
+    ._WuQ0f{
+
+        
+        font-weight: bold;
+        background-color: #d6d5d5;
+    }
+
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
