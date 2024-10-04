@@ -4,7 +4,7 @@ import './styles/global.css';
 import TaskBurdenBar from "./pages/task-burden/TaskBurdenBar.jsx";
 import BurnupChart from "./pages/burntUp/BurnUpChart.jsx";
 import GanttChart from "./pages/gantt/GanttChart.jsx";
-import TaskBoard from "./pages/board/TaskBoard.jsx";
+//import TaskBoard from "./pages/board/TaskBoard.jsx";
 import TaskList from "./pages/tasks/Task.jsx";
 import AddTask from "./pages/tasks/AddTask.jsx";
 import Login from "./pages/login/Login.jsx";
@@ -114,14 +114,6 @@ function App() {
 
   return (
     <div className='App'>
-      {/* <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout/>}></Route>
-          <Route path="/login" element={<Login/>}></Route>
-          <Route path='/' element={<TaskList/>}/>
-          <Route path='/AddTask' element={<AddTask/>}/>
-        </Routes>
-      </BrowserRouter> */}
       <RouterProvider router={router} />
     </div>
   )

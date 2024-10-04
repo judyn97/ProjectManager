@@ -13,10 +13,12 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.1",
+    "@mui/x-charts": "^7.18.0",
     "@mui/x-data-grid": "^7.18.0",
     "axios": "^1.7.7",
     "gantt-task-react": "^0.3.9",
     "react": "^18.3.1",
+    "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.3.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.26.2"
