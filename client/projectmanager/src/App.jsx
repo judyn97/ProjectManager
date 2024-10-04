@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/global.css';
+import TaskBurdenBar from "./pages/task-burden/TaskBurdenBar.jsx";
 import BurnupChart from "./pages/burntUp/BurnUpChart.jsx";
 import GanttChart from "./pages/gantt/GanttChart.jsx";
 import TaskBoard from "./pages/board/TaskBoard.jsx";
@@ -26,11 +27,13 @@ function App() {
   const [selectedProjectId, setSelectedProjectId] = useState(0);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(0);
   const [tasks, setTasks] = useState([]);
+  const [unfilteredTasks, setUnfilteredTasks] = useState([]);
 
 
   const fetchAllTasks = async () => {
     try {
       const res = await axios.get("http://localhost:8800/tasks");
+      setUnfilteredTasks(res.data);
       const filteredTasks = res.data.filter(
         item =>
           item.project_id === selectedProjectId && item.department_id === selectedDepartmentId
@@ -79,7 +82,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Home />,
+          element: <Home unfilteredTasks={unfilteredTasks}/>,
         },
         {
           path: "/Task",
@@ -96,6 +99,10 @@ function App() {
         {
           path: "/BurnUpChart",
           element: <BurnupChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
+        },
+        {
+          path: "/TaskBurdenBar",
+          element: <TaskBurdenBar tasks={tasks} />,
         },
       ],
     },

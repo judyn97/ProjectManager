@@ -41,6 +41,12 @@ export const menu= [
                 url: "/BurnUpChart",
                 icon:""
             },
+            {
+                id: 3,
+                title: "Task Burden Bar",
+                url: "/TaskBurdenBar",
+                icon:""
+            },
 
         ]
     },
