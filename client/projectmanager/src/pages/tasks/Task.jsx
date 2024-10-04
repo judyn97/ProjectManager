@@ -71,6 +71,10 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
       setEditingTask(formattedTask);
       setEditOpen(true);
     };
+
+    if( (selectedProjectId === 0) || (selectedDepartmentId === 0)){
+      return <h2 className="not-selected">Please select a project and department first</h2>;
+    }
     
     return(
       <div className="task-list-container">
