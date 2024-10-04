@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/global.css';
+import BurnupChart from "./pages/burntUp/BurnUpChart.jsx";
 import GanttChart from "./pages/gantt/GanttChart.jsx";
 import TaskBoard from "./pages/board/TaskBoard.jsx";
 import TaskList from "./pages/tasks/Task.jsx";
@@ -90,7 +91,11 @@ function App() {
         },
         {
           path: "/GanttChart",
-          element: <GanttChart tasks={tasks} />,
+          element: <GanttChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
+        },
+        {
+          path: "/BurnUpChart",
+          element: <BurnupChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
         },
       ],
     },

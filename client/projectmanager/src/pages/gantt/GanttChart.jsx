@@ -3,7 +3,7 @@ import { Gantt } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 import './GanttChart.css';
 
-function GanttChart({ tasks }) {
+function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
     function transformTasks(tasks) {
         return tasks.map(task => ({
             start: new Date(task.start_date),
@@ -20,6 +20,10 @@ function GanttChart({ tasks }) {
         }));
     }
 
+    function onClick(){
+        alert("Clicked");
+    }
+
     // if (isLoading) {
     //     return <div className="gantt-loading">Loading Gantt chart...</div>;
     // }
@@ -28,8 +32,8 @@ function GanttChart({ tasks }) {
     //     return <div className="gantt-error">Error: {error.message}</div>;
     // }
 
-    if (!tasks || tasks.length === 0) {
-        return <h2 className="gantt-no-data">Please select a project and department first</h2>;
+    if( (selectedProjectId === 0) || (selectedDepartmentId === 0)){
+        return <h2 className="not-selected">Please select a project and department first</h2>;
     }
 
     return (
@@ -40,6 +44,7 @@ function GanttChart({ tasks }) {
                 columnWidth={60}
                 preStepsCount={2}
                 todayColor='grey'
+                onClick={onClick}
             />
         </div>
     );

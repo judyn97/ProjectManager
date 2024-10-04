@@ -35,6 +35,12 @@ export const menu= [
                 url: "/GanttChart",
                 icon:""
             },
+            {
+                id: 2,
+                title: "Burn Up Chart",
+                url: "/BurnUpChart",
+                icon:""
+            },
 
         ]
     },
