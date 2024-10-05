@@ -3,7 +3,12 @@ import './home.css';
 import ProgressCard from './ProgressCard';
 import LeftAlignedTimeline from '../../components/timeline/Timeline.jsx';
 
-const Home = ({unfilteredTasks}) => {
+const Home = ({unfilteredTasks, selectedProjectId, selectedDepartmentId}) => {
+
+  if( (selectedProjectId === 0) || (selectedDepartmentId === 0)){
+    return <h2 className="not-selected">Please select a project and department first</h2>;
+  }
+  
   return (
     <div className='home'>
         <div className="box box1"><LeftAlignedTimeline/></div>

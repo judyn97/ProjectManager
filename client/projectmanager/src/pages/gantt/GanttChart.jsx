@@ -37,15 +37,18 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
     }
 
     return (
-        <div className="gantt-container">
-            <Gantt
-                tasks={transformTasks(tasks)}
-                viewMode="Day"
-                columnWidth={60}
-                preStepsCount={2}
-                todayColor='grey'
-                onClick={onClick}
-            />
+        <div>
+            <h2>Task Gantt Chart</h2>
+            <div className="gantt-container">
+                <Gantt
+                    tasks={transformTasks(tasks)}
+                    viewMode="Day"
+                    columnWidth={60}
+                    preStepsCount={2}
+                    todayColor='grey'
+                    onClick={onClick}
+                />
+            </div>
         </div>
     );
 }

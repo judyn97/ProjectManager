@@ -22,13 +22,16 @@ function TaskBurdenBar({ tasks, selectedProjectId, selectedDepartmentId }) {
     }
 
     return (
-        <BarChart style={{backgroundColor: "white"}}
-            xAxis={[{ scaleType: 'band', data: members }]} // xAxis with dynamic person names
-            series={[{ data: taskCounts }]} // Series data with dynamic task counts
-            width={1000}
-            height={300}
-            barLabel="value"
-        />
+        <div>
+            <h2>Task Burden Bar</h2>
+            <BarChart style={{backgroundColor: "white"}}
+                xAxis={[{ scaleType: 'band', data: members }]} // xAxis with dynamic person names
+                series={[{ data: taskCounts }]} // Series data with dynamic task counts
+                width={1000}
+                height={300}
+                barLabel="value"
+            />
+        </div>
     );
 }
 

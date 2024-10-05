@@ -23,11 +23,18 @@
         
     
         li{
+            display: flex;
+            flex-direction: column;
             background-color: #384256;
             list-style: none;
             padding: 5px 10px;
             margin-bottom: 10px;
             border-radius: 5px;
+
+            .user-date-text{
+                font-size: 12px;
+                color: #ddd;
+            }
         }
     }
 

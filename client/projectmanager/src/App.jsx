@@ -82,7 +82,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Home unfilteredTasks={unfilteredTasks}/>,
+          element: <Home unfilteredTasks={unfilteredTasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
         },
         {
           path: "/Task",

@@ -49,7 +49,7 @@ const Comments = ({ taskId }) => {
                 {comments.map((comment, index) => (
                     <li className='comment-list-container' key={index}>
                         <p>{comment.comment_text}</p>
-                        <span>Posted by User {comment.user_id} on {new Date(comment.created_at).toLocaleString()}</span>
+                        <span className='user-date-text'>Posted by User {comment.user_id} on {new Date(comment.created_at).toLocaleString()}</span>
                     </li>
                 ))}
             </ul>

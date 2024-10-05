@@ -64,46 +64,49 @@ const BurnupChart = ({ tasks, selectedProjectId, selectedDepartmentId}) => {
   const chartData = processData();
 
   return (
-    <ChartContainer className='burnUpChart-container'>
-      <LineChart
-        // Set the dimensions of the chart
-        //width={800}
-        //height={400}
-        // Define the data series for the chart
-        series={[
-          { 
-            data: chartData.map(d => d.actual), // Actual progress data
-            label: 'Actual Progress', 
-            color: '#8884d8' // Purple color for actual progress
-          },
-          { 
-            data: chartData.map(d => d.ideal), // Ideal progress data
-            label: 'Ideal Progress', 
-            color: '#82ca9d' // Green color for ideal progress
-          },
-        ]}
-        // Configure the X-axis
-        xAxis={[{ 
-          data: chartData.map(d => d.date), // Use dates for X-axis
-          scaleType: 'band', // Use band scale for categorical data
-        }]}
-        // Configure the Y-axis
-        yAxis={[{ 
-          label: 'Progress (%)', // Label for Y-axis
-        }]}
-        // Custom styling for the chart
-        sx={{
-          '.MuiLineElement-root': {
-            strokeWidth: 2, // Make lines thicker
-          },
-          '.MuiMarkElement-root': {
-            stroke: '#fff', // White stroke for data points
-            scale: '0.6', // Make data points smaller
-            fill: 'currentColor', // Fill color same as line color
-          },
-        }}
-      />
-    </ChartContainer>
+    <div>
+      <h2>Burnt Up Chart</h2>
+      <ChartContainer className='burnUpChart-container'>
+        <LineChart
+          // Set the dimensions of the chart
+          //width={800}
+          //height={400}
+          // Define the data series for the chart
+          series={[
+            { 
+              data: chartData.map(d => d.actual), // Actual progress data
+              label: 'Actual Progress', 
+              color: '#8884d8' // Purple color for actual progress
+            },
+            { 
+              data: chartData.map(d => d.ideal), // Ideal progress data
+              label: 'Ideal Progress', 
+              color: '#82ca9d' // Green color for ideal progress
+            },
+          ]}
+          // Configure the X-axis
+          xAxis={[{ 
+            data: chartData.map(d => d.date), // Use dates for X-axis
+            scaleType: 'band', // Use band scale for categorical data
+          }]}
+          // Configure the Y-axis
+          yAxis={[{ 
+            label: 'Progress (%)', // Label for Y-axis
+          }]}
+          // Custom styling for the chart
+          sx={{
+            '.MuiLineElement-root': {
+              strokeWidth: 2, // Make lines thicker
+            },
+            '.MuiMarkElement-root': {
+              stroke: '#fff', // White stroke for data points
+              scale: '0.6', // Make data points smaller
+              fill: 'currentColor', // Fill color same as line color
+            },
+          }}
+        />
+      </ChartContainer>
+    </div>
   );
 };
 
