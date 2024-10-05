@@ -102,7 +102,7 @@ function App() {
         },
         {
           path: "/TaskBurdenBar",
-          element: <TaskBurdenBar tasks={tasks} />,
+          element: <TaskBurdenBar tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
         },
       ],
     },

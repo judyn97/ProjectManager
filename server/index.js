@@ -111,6 +111,28 @@ app.get("/departments", (req,res)=>{
     })
 })
 
+app.post("/tasks/:taskId/comments", (req,res)=>{
+    const { taskId } = req.params;
+    const { userId, commentText } = req.body; // Expecting userId and commentText from frontend
+    //const { commentText } = req.body; // Expecting commentText from frontend
+
+    const q = `INSERT INTO comments (task_id, user_id, comment_text) VALUES (?, ?, ?)`;
+    db.query(q,[taskId, userId, commentText], (err,data)=>{
+        if(err) return res.json(err)
+        return res.json(data)
+    })
+})
+
+app.get("/tasks/:taskId/comments", (req,res)=>{
+    const { taskId } = req.params;
+
+    const q = `SELECT * FROM comments WHERE task_id = ? ORDER BY created_at ASC`
+    db.query(q, [taskId], (err,data)=>{
+        if(err) return res.json(err)
+        return res.json(data)
+    })
+})
+
 app.listen(8800, () =>{
     console.log("Connected");
 })

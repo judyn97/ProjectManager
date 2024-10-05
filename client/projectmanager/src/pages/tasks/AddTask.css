@@ -19,6 +19,8 @@
     -o-border-radius: 10px;
     background-color: #2a3447;
     position: relative;
+    max-height: 90%;
+    overflow-y: auto;
 
     h1{
         margin-bottom: 40px;

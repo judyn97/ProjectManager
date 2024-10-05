@@ -1,6 +1,6 @@
 import { BarChart } from '@mui/x-charts/BarChart';
 
-function TaskBurdenBar({ tasks }) {
+function TaskBurdenBar({ tasks, selectedProjectId, selectedDepartmentId }) {
     // Filter only tasks that are "In Progress"
     const filteredTasks = tasks.filter(task => task.status === "In Progress");
 
@@ -17,7 +17,9 @@ function TaskBurdenBar({ tasks }) {
     const members = Object.keys(taskCountByPerson); // Person names for the x-axis
     const taskCounts = Object.values(taskCountByPerson); // Task counts for the bar chart
 
-    console.log("task count", taskCountByPerson);
+    if( (selectedProjectId === 0) || (selectedDepartmentId === 0)){
+        return <h2 className="not-selected">Please select a project and department first</h2>;
+    }
 
     return (
         <BarChart style={{backgroundColor: "white"}}

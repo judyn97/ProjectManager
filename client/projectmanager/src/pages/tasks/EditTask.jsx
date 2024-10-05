@@ -1,6 +1,7 @@
 import './AddTask.css';
 import { useState } from 'react';
 import axios from 'axios';
+import Comments from '../../components/comments/Comment';
 
 function EditTask({ task, columns, setOpen, onUpdate }) {
   const [editTask, setEditTask] = useState(task);
@@ -60,6 +61,7 @@ function EditTask({ task, columns, setOpen, onUpdate }) {
             </div>
           ))}
           <button type="submit">Update Task</button>
+          <Comments taskId={task.task_id}/>
         </form>
       </div>
     </div>
