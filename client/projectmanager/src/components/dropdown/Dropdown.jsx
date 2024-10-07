@@ -23,7 +23,7 @@ function Dropdown({ items, selectedItem, setSelectedItem, setSelectedItemId }) {
                 {items.map((item, index) => (
                     <li
                         key={index}
-                        className={selectedItem === item.project_name || item.department_name ? 'active' : ''}
+                        className={(selectedItem === item.project_name || selectedItem === item.department_name) ? 'active' : ''}
                         onClick={() => handleSelect(item.project_name || item.department_name, item.project_id || item.department_id)}
                     >
                         {item.project_name || item.department_name}
