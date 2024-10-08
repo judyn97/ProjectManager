@@ -18,7 +18,6 @@ function AddTask(props){
 
     const handleChange = (e) => {
         setAddTask((prev) => ({...prev, [e.target.name]:e.target.value}));
-        console.log("Add Task: ", addTask);
     }
 
     const handleClick = async e => {
@@ -42,11 +41,18 @@ function AddTask(props){
                         <div className="item" key={column.id}>
                             <label>{column.headerName}</label>
                             {column.type === "singleSelect" ? 
-                            <select name={column.headerName} value={addTask.status} onChange={handleChange} required> 
+                            (column.headerName === "Bucket" ? 
+                            <select name={column.field} value={addTask.bucket_id} onChange={handleChange} required> 
+                                {props.bucketList.map((bucket)=>(
+                                    <option value={bucket.bucket_id} key={bucket.bucket_id}>{bucket.bucket_name}</option>
+                                ))}
+                            </select> 
+                            :
+                            <select name={column.field} value={addTask.status} onChange={handleChange} required> 
                                 <option value="Not Started">Not Started</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Done">Done</option>
-                            </select> :
+                            </select> ):
                             <input type={column.type} placeholder={column.headerName} onChange={handleChange} name={column.field} required/> }
                         </div>
                     ))}

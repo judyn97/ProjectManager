@@ -4,7 +4,7 @@ import './styles/global.css';
 import TaskBurdenBar from "./pages/task-burden/TaskBurdenBar.jsx";
 import BurnupChart from "./pages/burntUp/BurnUpChart.jsx";
 import GanttChart from "./pages/gantt/GanttChart.jsx";
-//import TaskBoard from "./pages/board/TaskBoard.jsx";
+import TaskBoard from "./pages/board/TaskBoard.jsx";
 import TaskList from "./pages/tasks/Task.jsx";
 import AddTask from "./pages/tasks/AddTask.jsx";
 import Login from "./pages/login/Login.jsx";
@@ -28,7 +28,20 @@ function App() {
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(0);
   const [tasks, setTasks] = useState([]);
   const [unfilteredTasks, setUnfilteredTasks] = useState([]);
+  const [bucketList, setBucketList] = useState([]);
 
+  const fetchBucketsList = async () => {
+    try {
+      const res = await axios.get("http://localhost:8800/buckets");
+      setBucketList(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchBucketsList();
+  }, []);
 
   const fetchAllTasks = async () => {
     try {
@@ -86,7 +99,11 @@ function App() {
         },
         {
           path: "/Task",
-          element: <TaskList tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks}/>,
+          element: <TaskList tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} bucketList={bucketList}/>,
+        },
+        {
+          path: "/TaskBoard",
+          element: <TaskBoard tasksBucket={tasks} bucketList={bucketList}/>,
         },
         {
           path: "/AddTask",

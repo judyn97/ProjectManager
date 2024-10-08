@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/tasks", (req,res)=>{
-    const q = "SELECT * FROM tasks"
+    const q = "SELECT tasks.*, buckets.* FROM tasks JOIN buckets ON tasks.bucket_id = buckets.bucket_id"
     db.query(q,(err,data)=>{
         if(err) return res.json(err)
         return res.json(data)
@@ -27,7 +27,7 @@ app.get("/tasks", (req,res)=>{
 })
 
 app.post("/tasks", (req,res)=>{
-    const q = "INSERT INTO tasks (`project_id`,`department_id`, `task_name`, `start_date`, `due_date`, `status`,  `progress`, `description`, `person_in_charge`) VALUES (?);";
+    const q = "INSERT INTO tasks (`project_id`,`department_id`, `task_name`, `start_date`, `due_date`, `status`,  `progress`, `description`, `person_in_charge`, `bucket_id`) VALUES (?);";
     const values = [
         req.body.project_id,
         req.body.department_id,
@@ -38,6 +38,7 @@ app.post("/tasks", (req,res)=>{
         req.body.progress,
         req.body.description,
         req.body.person_in_charge,
+        req.body.bucket_id,
     ];
     db.query(q, [values], (err,data)=>{
         if(err) return res.json(err)
@@ -56,7 +57,7 @@ app.put("/tasks/:id", (req, res) => {
             status = ?, 
             progress = ?, 
             description = ?, 
-            person_in_charge = ? 
+            bucket_id = ?
         WHERE task_id = ?`;
 
     // Parse the date to the format MySQL accepts (YYYY-MM-DD)
@@ -75,7 +76,7 @@ app.put("/tasks/:id", (req, res) => {
         req.body.status,
         req.body.progress,
         req.body.description,
-        req.body.person_in_charge
+        req.body.bucket_id,
     ];
 
     db.query(q, [...values, taskId], (err, data) => {
@@ -130,6 +131,56 @@ app.get("/tasks/:taskId/comments", (req,res)=>{
     db.query(q, [taskId], (err,data)=>{
         if(err) return res.json(err)
         return res.json(data)
+    })
+})
+
+app.get("/buckets", (req,res) => {
+    const q = "SELECT * FROM buckets";
+    db.query(q, (err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    })
+})
+
+app.post("/buckets", (req,res)=> {
+    const q = "INSERT INTO tasks (`bucket_name`, `position`) VALUES (?);";
+    const values = [
+        req.body.bucket_name,
+        req.body.position,
+    ];
+    db.query(q, [values], (err,data)=>{
+        if(err) return res.json(err)
+        return res.json("Task has been created successfully")
+    })
+})
+
+app.put("/buckets/:id", (req,res)=> {
+    const taskId = req.params.id;
+    const q = `
+        UPDATE buckets 
+        SET 
+            bucket_name = ?, 
+            position = ? 
+        WHERE bucket_id = ?`;
+
+    const values = [
+        req.body.bucket_name,
+        req.body.position
+    ];
+
+    db.query(q, [...values, taskId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("Task updated successfully!");
+    });
+})
+
+app.delete("/buckets/:id", (req,res)=>{
+    const taskId = req.params.id;
+    const q = "DELETE FROM buckets WHERE bucket_id = ?";
+
+    db.query(q, [taskId], (err,data)=> {
+        if(err) return res.json(err)
+        return res.json("Task has been deleted successfully");
     })
 })
 

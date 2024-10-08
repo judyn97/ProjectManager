@@ -3,11 +3,12 @@ import { useState } from 'react';
 import axios from 'axios';
 import Comments from '../../components/comments/Comment';
 
-function EditTask({ task, columns, setOpen, onUpdate }) {
+function EditTask({ task, columns, setOpen, onUpdate, bucketList }) {
   const [editTask, setEditTask] = useState(task);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setEditTask((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -45,11 +46,18 @@ function EditTask({ task, columns, setOpen, onUpdate }) {
             <div className="item" key={column.field}>
               <label htmlFor={column.field}>{column.headerName}</label>
               {column.type === "singleSelect" ? 
+                (column.headerName === "Bucket" ? 
+                <select name={column.field} value={editTask.bucket_id} onChange={handleChange} required> 
+                    {bucketList.map((bucket)=>(
+                        <option value={bucket.bucket_id} key={bucket.bucket_id}>{bucket.bucket_name}</option>
+                    ))}
+                </select> 
+                :
                 <select name={column.field} value={editTask.status} onChange={handleChange} required> 
                     <option value="Not Started">Not Started</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Done">Done</option>
-                </select> :
+                </select> ) :
               <input
                 id={column.field}
                 type={column.type === 'date' ? 'date' : 'text'}

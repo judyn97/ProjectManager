@@ -4,7 +4,7 @@ import DataTable from '../../components/dataTable/dataTable';
 import AddTask from './AddTask';
 import EditTask from './EditTask';
 
-function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks }){
+function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks, bucketList }){
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
@@ -60,6 +60,14 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
             width: 150,
             editable: true,
           },
+          {
+            field: 'bucket_id',
+            headerName: 'Bucket',
+            type: 'singleSelect',
+            width: 150,
+            editable: true,
+            renderCell: (params) => params.row.bucket_name,
+          },
       ];
 
     const handleEdit = (task) => {
@@ -98,6 +106,7 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
           onUpdate={fetchAllTasks}
           selectedProjectId={selectedProjectId}
           selectedDepartmentId={selectedDepartmentId}
+          bucketList={bucketList}
         />
       )}
       {editOpen && (
@@ -106,6 +115,7 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
           columns={columns}
           setOpen={setEditOpen}
           onUpdate={fetchAllTasks}
+          bucketList={bucketList}
         />
       )}
     </div>
