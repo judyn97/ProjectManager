@@ -1,0 +1,70 @@
+.kanban-board {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: #f4f5f7;
+    border-radius: 5px;
+    overflow-x: auto;
+    min-height: 500px;
+  }
+  .kanban-column {
+    background-color: #2a3447;
+    border-radius: 5px;
+    width: 300px;
+    padding: 10px;
+    margin-right: 20px;
+    flex-shrink: 0;
+  }
+  .kanban-column h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: white;
+  }
+  .kanban-item {
+    background-color: #384256;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 0 rgba(9,30,66,.25);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .kanban-item:hover {
+    background-color: #f4f5f7;
+  }
+  .add-task-btn, .add-column-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    background-color: #ebecf0;
+    border: none;
+    border-radius: 3px;
+    color: #747b86;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .add-task-btn:hover, .add-column-btn:hover {
+    background-color: #dfe1e6;
+  }
+  .add-column-btn {
+    background-color: #2a3447;
+    margin-left: 20px;
+  }
+  @media (max-width: 768px) {
+    .kanban-board {
+      flex-direction: column;
+      align-items: center;
+    }
+    .kanban-column {
+      width: 90%;
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+    .add-column-btn {
+      margin-left: 0;
+      width: 90%;
+    }
+  }
