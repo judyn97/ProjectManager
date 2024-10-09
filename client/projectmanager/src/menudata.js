@@ -22,6 +22,12 @@ export const menu= [
                 url: "/Task",
                 icon:""
             },
+            {
+                id: 2,
+                title: "Task Board",
+                url: "/TaskBoard",
+                icon:""
+            },
 
         ]
     },

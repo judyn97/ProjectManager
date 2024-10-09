@@ -85,6 +85,21 @@ app.put("/tasks/:id", (req, res) => {
     });
 });
 
+app.put("/tasks/:id/bucket", (req, res) => {
+    const taskId = req.params.id;
+    const q = `
+        UPDATE tasks 
+        SET bucket_id = ? 
+        WHERE task_id = ?`;
+
+    const values = [req.body.bucket_id];
+
+    db.query(q, [...values, taskId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("Task bucket_id updated successfully!");
+    });
+});
+
 
 app.delete("/tasks/:id", (req,res)=>{
     const taskId = req.params.id;
