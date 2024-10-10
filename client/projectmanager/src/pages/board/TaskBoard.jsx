@@ -3,7 +3,7 @@ import './TaskBoard.css';
 import axios from 'axios';
 // import { PlusIcon } from 'lucide-react'
 
-export default function Component({tasksBucket, selectedProjectId, selectedDepartmentId,fetchAllTasks, bucketList}) {
+export default function Component({tasksBucket, selectedProjectId, selectedDepartmentId,fetchAllTasks, fetchBucketsList, bucketList}) {
   const [tasks, setTasks] = useState({})
   const [draggedColumn, setDraggedColumn] = useState(null);
 
@@ -17,7 +17,6 @@ export default function Component({tasksBucket, selectedProjectId, selectedDepar
       return acc;
     }, {});
     setTasks(groupedTasks);
-    console.log("Grouped tasks:", groupedTasks);
   }, [tasksBucket])
   
 
@@ -26,7 +25,6 @@ export default function Component({tasksBucket, selectedProjectId, selectedDepar
     e.stopPropagation(); // Prevent the event from reaching the column
     e.dataTransfer.setData('type', 'task'); // Mark as task drag
     e.dataTransfer.setData('id', id); // Store task id
-    console.log("Dragging task with ID:", id);
   };
 
   // Column drag start
@@ -45,29 +43,22 @@ export default function Component({tasksBucket, selectedProjectId, selectedDepar
   // Handle dropping (for both tasks and columns)
 const onDrop = async (e, category) => {
   const type = e.dataTransfer.getData('type'); // Check the drag type (task or column)
-  console.log("Drop type:", type);
   // Handle task dropping
   if (type === 'task') {
     let id = e.dataTransfer.getData('id');
     const numericId = parseInt(id, 10);
-    console.log("Task ID:", id);
     let newTasks = { ...tasks };
     let taskToMove;
 
     // Find and remove the dragged task from its original column
     for (let status in tasks) {
-      console.log("Searching in column:", status, "for task ID:", id);
       const task = tasks[status].find(task => task.id === numericId);
-      console.log("Task search:", tasks[status]);
 
       if (task) {
         taskToMove = task;
         newTasks[status] = newTasks[status].filter(task => task.id !== id);
-        console.log("Task found:", taskToMove);
       }
     }
-    console.log("Task to move:", taskToMove);
-
 
     // Add the task to the new category (column)
     if (taskToMove) {
@@ -96,14 +87,39 @@ const onDrop = async (e, category) => {
 
   // Handle column dropping
   else if (type === 'column') {
-    const targetColumn = category;
-    const columns = Object.keys(tasks);
-    const draggedIndex = columns.indexOf(draggedColumn);
-    const targetIndex = columns.indexOf(targetColumn);
+    const targetColumn =  bucketList.find(pos=> pos.bucket_name === category).position;
+    const bucketId =  bucketList.find(pos=> pos.bucket_name === category).bucket_id;
+    const columns = bucketList.map((pos)=> pos.position);
+
+    // const draggedIndex = columns.indexOf(draggedColumn);
+    // const targetIndex = columns.indexOf(targetColumn);
+    const draggedBucketId = bucketList.find(pos => pos.position === draggedColumn).bucket_id;
+    const draggedIndex = draggedColumn;
+    const targetIndex = targetColumn;
 
     // Reorder columns by swapping the dragged column with the target column
     columns.splice(draggedIndex, 1); // Remove dragged column
     columns.splice(targetIndex, 0, draggedColumn); // Insert dragged column at new position
+
+    try {
+      // First request: Update dragged column's position
+      await axios.put(`http://localhost:8800/buckets/updatePosition`, {
+        bucket_id: draggedBucketId,
+        new_position: targetIndex
+      });
+
+      // Second request: Update target column's position
+      await axios.put(`http://localhost:8800/buckets/updatePosition`, {
+          bucket_id: bucketId,
+          new_position: draggedIndex
+      });
+
+        fetchBucketsList();
+        //console.log(`Columns updated: Dragged Column ID ${draggedColumn} to position ${targetIndex}, Target Column ID ${targetColumn} to position ${draggedIndex}`);
+      } catch (error) {
+        console.error("Error updating Columns:", error);
+      }
+    
 
     // Rebuild the task object with the reordered columns
     const reorderedTasks = {};
@@ -146,12 +162,15 @@ const onDrop = async (e, category) => {
   return (
     <div className="kanban-board">
       {/* Loop through bucketList to create columns */}
-      {bucketList.map(bucket => (
+      {bucketList
+      .slice()
+      .sort((a,b)=> a.position - b.position)
+      .map(bucket => (
         <div 
           key={bucket.bucket_id} 
           className="kanban-column"
           draggable 
-          onDragStart={(e) => onDragStartColumn(e, bucket.bucket_name)} 
+          onDragStart={(e) => onDragStartColumn(e, bucket.position)} 
           onDragOver={onDragOver} 
           onDrop={(e) => onDrop(e, bucket.bucket_name)}
         >

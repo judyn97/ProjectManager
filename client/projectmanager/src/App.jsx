@@ -103,7 +103,7 @@ function App() {
         },
         {
           path: "/TaskBoard",
-          element: <TaskBoard tasksBucket={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} bucketList={bucketList}/>,
+          element: <TaskBoard tasksBucket={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} fetchBucketsList={fetchBucketsList} bucketList={bucketList}/>,
         },
         {
           path: "/AddTask",

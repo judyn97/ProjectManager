@@ -8,7 +8,8 @@ const db = mysql.createConnection({
     host:"localhost",
     user:"root",
     password:"root",
-    database:"pdcprojectmanager"
+    database:"pdcprojectmanager",
+    multipleStatements: true 
 });
 
 // app.get("/", (req, res)=>{
@@ -169,7 +170,21 @@ app.post("/buckets", (req,res)=> {
     })
 })
 
+app.put("/buckets/updatePosition", (req, res) => {
+    const { bucket_id, new_position } = req.body;
+    const q = `
+        UPDATE buckets
+        SET position = ?
+        WHERE bucket_id = ?`;
+    
+    db.query(q, [new_position, bucket_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.json("Position updated successfully!");
+    });
+});
+
 app.put("/buckets/:id", (req,res)=> {
+    console.log("Request body:", req.body);
     const taskId = req.params.id;
     const q = `
         UPDATE buckets 
@@ -188,6 +203,8 @@ app.put("/buckets/:id", (req,res)=> {
         return res.json("Task updated successfully!");
     });
 })
+
+
 
 app.delete("/buckets/:id", (req,res)=>{
     const taskId = req.params.id;
