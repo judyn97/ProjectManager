@@ -10,6 +10,7 @@ const db = mysql.createConnection({
     password:"root",
     database:"pdcprojectmanager",
     multipleStatements: true 
+    dateStrings: true  
 });
 
 // app.get("/", (req, res)=>{
