@@ -1,7 +1,8 @@
 import React from 'react';
-import { Gantt } from 'gantt-task-react';
+import { GanttOriginal, ViewMode } from "react-gantt-chart";
 import "gantt-task-react/dist/index.css";
 import './GanttChart.css';
+import axios from 'axios';
 
 function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
     function transformTasks(tasks) {
@@ -20,10 +21,6 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
         }));
     }
 
-    function onClick(){
-        alert("Clicked");
-    }
-
     // if (isLoading) {
     //     return <div className="gantt-loading">Loading Gantt chart...</div>;
     // }
@@ -36,18 +33,67 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
         return <h2 className="not-selected">Please select a project and department first</h2>;
     }
 
+     // Handle date change when a task is dragged
+     const handleDateChange = async (task) => {
+        console.log(task)
+        const formatDate = (dateStr) => {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        const extractNumber = (str) => {
+            const match = str.match(/\d+/);  // Find one or more digits
+            return match ? Number(match[0]) : null;  // Convert to a number, or return null if no match
+          };
+
+        let task_id = extractNumber(task.id)
+
+        const submissionData = {
+            start_date: formatDate(task.start),
+            due_date: formatDate(task.end),
+          };
+        try{
+            await axios.put(`http://localhost:8800/tasks/${task_id}/date`, submissionData);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleProgressChange = async (task) => {
+        const submissionData = {
+            progress: task.progress,
+        };
+
+        const extractNumber = (str) => {
+          const match = str.match(/\d+/);  // Find one or more digits
+          return match ? Number(match[0]) : null;  // Convert to a number, or return null if no match
+        };
+
+        let task_id = extractNumber(task.id)
+
+        try{
+            await axios.put(`http://localhost:8800/tasks/${task_id}/progress`, submissionData);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div>
             <h2>Task Gantt Chart</h2>
             <div className="gantt-container">
-                <Gantt
-                    tasks={transformTasks(tasks)}
-                    viewMode="Day"
-                    columnWidth={60}
-                    preStepsCount={2}
+                <GanttOriginal
+		        	tasks={transformTasks(tasks)}
+		        	viewMode={ViewMode.Day}
                     todayColor='grey'
-                    onClick={onClick}
-                />
+                    onDateChange={handleDateChange}
+                    onProgressChange={handleProgressChange}
+		        />
             </div>
         </div>
     );

@@ -87,6 +87,53 @@ app.put("/tasks/:id", (req, res) => {
     });
 });
 
+app.put("/tasks/:id/date", (req, res) => {
+    const taskId = req.params.id;
+    const q = `
+        UPDATE tasks 
+        SET 
+            start_date = ?, 
+            due_date = ? 
+        WHERE task_id = ?`;
+
+    // Parse the date to the format MySQL accepts (YYYY-MM-DD)
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const values = [
+        formatDate(req.body.start_date), // Format the start_date
+        formatDate(req.body.due_date),   // Format the due_date
+    ];
+
+    db.query(q, [...values, taskId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("Task updated successfully!");
+    });
+});
+
+app.put("/tasks/:id/progress", (req, res) => {
+    const taskId = req.params.id;
+    const q = `
+        UPDATE tasks 
+        SET 
+            progress = ?
+        WHERE task_id = ?`;
+
+    const values = [
+        req.body.progress,
+    ];
+
+    db.query(q, [...values, taskId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("Task updated successfully!");
+    });
+});
+
 app.put("/tasks/:id/bucket", (req, res) => {
     const taskId = req.params.id;
     const q = `
