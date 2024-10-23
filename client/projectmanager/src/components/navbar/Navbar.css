@@ -11,6 +11,11 @@
         font-weight: bold;
         font-size: 25px;
         gap: 10px;
+
+        img{
+            height: 30px;
+            margin-left: 2px;
+        }
     }
 
     .icons{
