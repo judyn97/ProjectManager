@@ -191,7 +191,7 @@ app.post("/tasks/:taskId/comments", (req,res)=>{
 app.get("/tasks/:taskId/comments", (req,res)=>{
     const { taskId } = req.params;
 
-    const q = `SELECT * FROM comments WHERE task_id = ? ORDER BY created_at ASC`
+    const q = `SELECT * FROM comments WHERE task_id = ? ORDER BY created_at DESC`
     db.query(q, [taskId], (err,data)=>{
         if(err) return res.json(err)
         return res.json(data)
