@@ -2,6 +2,7 @@ import "./Navbar.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Dropdown from "../dropdown/Dropdown";
+import headerLogo from "../../assets/yamaha.svg";
 
 const Navbar = (props) => {
 
@@ -37,7 +38,7 @@ const Navbar = (props) => {
   return (
     <div className="navbar">
         <div className="logo">
-            <img src="./assets/react.svg" alt=""/>
+            <img src={headerLogo} alt=""/>
             <span>Pidishi Project Manager</span>
         </div>
         <div className="project-group">
