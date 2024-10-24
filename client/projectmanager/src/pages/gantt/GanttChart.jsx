@@ -5,6 +5,7 @@ import './GanttChart.css';
 import axios from 'axios';
 
 function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
+function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks}) {
     function transformTasks(tasks) {
         return tasks.map(task => ({
             start: new Date(task.start_date),
@@ -57,6 +58,7 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
           };
         try{
             await axios.put(`http://localhost:8800/tasks/${task_id}/date`, submissionData);
+            fetchAllTasks();
         }
         catch (error) {
             console.log(error);
@@ -77,6 +79,7 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
 
         try{
             await axios.put(`http://localhost:8800/tasks/${task_id}/progress`, submissionData);
+            fetchAllTasks();
         }
         catch (error) {
             console.log(error);
