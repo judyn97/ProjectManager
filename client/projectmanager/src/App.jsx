@@ -111,7 +111,7 @@ function App() {
         },
         {
           path: "/GanttChart",
-          element: <GanttChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
+          element: <GanttChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks}/>,
         },
         {
           path: "/BurnUpChart",
