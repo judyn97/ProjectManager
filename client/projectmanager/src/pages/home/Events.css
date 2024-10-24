@@ -1,0 +1,42 @@
+.event-container{
+    .event-header{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    button{
+        background-color: transparent;
+        border: none;
+        padding: 2px 4px;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+
+    .event-list{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+
+        .event-data{
+            .event-title{
+                font-size: 15px;
+            }
+            .event-date-countdown{
+                display: inline;
+                font-size: 13px;
+                font-weight: 600;
+                background-color: white;
+                color: #000;
+                margin-top: 2px;
+                padding: 2px 8px;
+                border-radius: 20px;
+            }
+        }
+
+        .event-data-action{
+            display: flex;
+            align-items:flex-start;
+            justify-content: center;
+        }
+    }
+}

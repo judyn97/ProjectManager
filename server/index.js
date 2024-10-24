@@ -264,6 +264,37 @@ app.delete("/buckets/:id", (req,res)=>{
     })
 })
 
+app.get("/events", (req,res) => {
+    const q = "SELECT * FROM events";
+    db.query(q, (err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    })
+})
+
+app.post("/events", (req,res) =>{
+    const q = "INSERT INTO events (`event_name`, `event_group`, `event_date`) VALUES (?);";
+    const values = [
+        req.body.event_name,
+        req.body.event_group,
+        req.body.event_date,
+    ];
+    db.query(q, [values], (err,data)=>{
+        if(err) return res.json(err)
+        return res.json("Task has been created successfully")
+    })
+})
+
+app.delete("/events/:id", (req,res)=>{
+    const taskId = req.params.id;
+    const q = "DELETE FROM events WHERE event_id = ?";
+
+    db.query(q, [taskId], (err,data)=> {
+        if(err) return res.json(err)
+        return res.json("Task has been deleted successfully");
+    })
+})
+
 app.listen(8800, () =>{
     console.log("Connected");
 })
