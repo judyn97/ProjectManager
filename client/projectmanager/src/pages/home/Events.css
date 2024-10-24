@@ -3,6 +3,13 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
+
+        .event-header-title{
+            display: flex;
+            h3{
+                margin-left: 5px;
+            }
+        }
     }
     button{
         background-color: transparent;

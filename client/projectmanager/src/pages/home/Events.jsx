@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import EventIcon from '@mui/icons-material/Event';
 import './Events.css'
 
 function EventsTable({departmentName}){
@@ -134,7 +135,10 @@ function EventsTable({departmentName}){
     return(
         <div className="event-container">
             <div className="event-header"> 
-                <h3>{departmentName} Upcoming Events</h3>
+                <div className="event-header-title">
+                    <EventIcon style={{ color: 'white' }}/>
+                    <h3>{departmentName} Upcoming Events</h3>
+                </div>
                 <button className="new-event-button" onClick={handleOpen}><AddBoxIcon style={{ color: 'white' }}/></button>
                 
             </div>
