@@ -285,6 +285,26 @@ app.post("/events", (req,res) =>{
     })
 })
 
+app.put("/events/:id", (req,res)=> {
+    const taskId = req.params.id;
+    const q = `
+        UPDATE events 
+        SET 
+            event_name = ?, 
+            event_date = ? 
+        WHERE event_id = ?`;
+
+    const values = [
+        req.body.event_name,
+        req.body.event_date
+    ];
+
+    db.query(q, [...values, taskId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("Task updated successfully!");
+    });
+})
+
 app.delete("/events/:id", (req,res)=>{
     const taskId = req.params.id;
     const q = "DELETE FROM events WHERE event_id = ?";

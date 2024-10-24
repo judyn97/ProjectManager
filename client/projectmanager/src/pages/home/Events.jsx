@@ -6,13 +6,22 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import './Events.css'
-import { red } from "@mui/material/colors";
 
 function EventsTable({departmentName}){
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false);
+        setAddEvent({
+            event_name: "",
+            event_group: departmentName,
+            event_date: "",
+        });
+        setEditEvent(null); 
+    };
+    const [editEvent, setEditEvent] = useState(null);
+
 
     const [eventList, setEventList] = useState([])
     const [addEvent, setAddEvent] = useState({
@@ -69,8 +78,14 @@ function EventsTable({departmentName}){
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try{
-            await axios.post("http://localhost:8800/events", addEvent);
-            fetchEventsList();
+            if (editEvent) {
+                await axios.put(`http://localhost:8800/events/${editEvent.event_id}`, addEvent);
+            } else {
+                await axios.post("http://localhost:8800/events", addEvent);
+            }
+            fetchEventsList();  
+            handleClose();  
+            setEditEvent(null); 
         }
         catch(err){
             console.log(err)
@@ -94,9 +109,15 @@ function EventsTable({departmentName}){
         }
     }
 
-    const handleEdit = async (id) =>{
-        
-    }
+    const handleEdit = (event) => {
+        setEditEvent(event);  
+        setAddEvent({  
+            event_name: event.event_name,
+            event_group: event.event_group,
+            event_date: event.event_date,
+        });
+        handleOpen(); 
+    };
 
     const style = {
         position: 'absolute',
@@ -123,9 +144,9 @@ function EventsTable({departmentName}){
             >
                 <Box sx={style} className="event-box">
                     <form className="event-form" onSubmit={handleSubmit}>
-                    <input className="event-name-input" type="text" name="event_name" onChange={handleChange}/>
-                    <input className="event-date-input" type="date" name="event_date" onChange={handleChange}/>
-                    <button className="submit-button">Add</button>
+                    <input className="event-name-input" type="text" name="event_name" value={addEvent.event_name} onChange={handleChange}/>
+                    <input className="event-date-input" type="date" name="event_date" value={addEvent.event_date} onChange={handleChange}/>
+                    <button className="submit-button">{editEvent ? "Update" : "Add"}</button>
                     </form>
                 </Box>
             </Modal>
@@ -137,7 +158,7 @@ function EventsTable({departmentName}){
                         <p className="event-date-countdown">{countdownDays(event.event_date)}</p>
                     </div>
                     <div className="event-data-action">
-                        <button onClick={() => handleEdit(event.event_id)}><EditIcon style={{color: 'white', fontSize: '20'}}/></button>
+                        <button onClick={() => handleEdit(event)}><EditIcon style={{color: 'white', fontSize: '20'}}/></button>
                         <button onClick={() => handleDelete(event.event_id)}><DeleteForeverIcon style={{color: 'white', fontSize: '20'}}/></button>
                     </div>
                 </div>
