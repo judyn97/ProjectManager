@@ -47,3 +47,36 @@
         }
     }
 }
+
+.event-form{
+    .input-label{
+        margin-right: 10px;
+    }
+    
+    .date{
+        margin-right: 19px;
+    }
+    
+    .event-name-input,
+    .event-date-input{
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+    
+    .submit-button{
+        background-color: #cec9c9;
+        padding: 12px 20px;
+        font-weight: 600;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+    }
+
+    .submit-button-box{
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

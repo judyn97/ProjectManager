@@ -148,9 +148,17 @@ function EventsTable({departmentName}){
             >
                 <Box sx={style} className="event-box">
                     <form className="event-form" onSubmit={handleSubmit}>
-                    <input className="event-name-input" type="text" name="event_name" value={addEvent.event_name} onChange={handleChange}/>
-                    <input className="event-date-input" type="date" name="event_date" value={addEvent.event_date} onChange={handleChange}/>
-                    <button className="submit-button">{editEvent ? "Update" : "Add"}</button>
+                    <div>
+                        <label className="input-label name">Event Name : </label>
+                        <input className="event-name-input" type="text" name="event_name" value={addEvent.event_name} onChange={handleChange}/>
+                    </div>
+                    <div>
+                        <label className="input-label date">Event Date : </label>
+                        <input className="event-date-input" type="date" name="event_date" value={addEvent.event_date} onChange={handleChange}/>
+                    </div>
+                    <div className="submit-button-box">
+                        <button className="submit-button">{editEvent ? "Update" : "Add"}</button>
+                    </div>
                     </form>
                 </Box>
             </Modal>

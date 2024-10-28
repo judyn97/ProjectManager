@@ -18,12 +18,12 @@ const Home = ({unfilteredTasks, selectedProjectId, selectedDepartmentId}) => {
         <div className="box box2"><ProgressCard departmentName={"Software"} departmentId={1} unfilteredTasks={unfilteredTasks}/></div>
         <div className="box box3"><ProgressCard departmentName={"Electrical"} departmentId={2} unfilteredTasks={unfilteredTasks}/></div>
         <div className="box box4"><ProgressCard departmentName={"Mechanical"} departmentId={3} unfilteredTasks={unfilteredTasks}/></div>
-        <div className="box box5"><EventsTable departmentName={"Software"}/></div>
-        <div className="box box6"><EventsTable departmentName={"Electrical"}/></div>
-        <div className="box box7"><EventsTable departmentName={"Mechanical"}/></div>
         <div className="box box9"><UpcomingTask departmentName={"Software"} departmentId={1} unfilteredTasks={unfilteredTasks}/></div>
         <div className="box box10"><UpcomingTask departmentName={"Electrical"} departmentId={2} unfilteredTasks={unfilteredTasks}/></div>
         <div className="box box11"><UpcomingTask departmentName={"Mechanical"} departmentId={3} unfilteredTasks={unfilteredTasks}/></div>
+        <div className="box box5"><EventsTable departmentName={"Software"}/></div>
+        <div className="box box6"><EventsTable departmentName={"Electrical"}/></div>
+        <div className="box box7"><EventsTable departmentName={"Mechanical"}/></div>
         
     </div>
   )

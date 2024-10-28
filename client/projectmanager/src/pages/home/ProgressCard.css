@@ -29,8 +29,8 @@
         }
     }
     .grid-1 {
-        grid-column: span 1; /* Occupies the first column */
-        grid-row: span 2;        /* Occupies the first row */
+        grid-column: span 1; 
+        grid-row: span 2;    
     }
     
 }
