@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.get("/", getTasks);
 router.post("/", createTask);
-router.put("/", editTask);
-router.put("/", editTaskDate);
-router.put("/", editTaskProgress);
-router.put("/", editTaskBucket);
-router.delete("/", deleteTask);
+router.put("/:id", editTask);
+router.put("/:id/date", editTaskDate);
+router.put("/:id/progress", editTaskProgress);
+router.put("/:id/bucket", editTaskBucket);
+router.delete("/:id", deleteTask);
 
 export default router;

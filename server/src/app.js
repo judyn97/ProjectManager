@@ -17,6 +17,6 @@ app.use("/buckets", bucketRoutes);
 app.use("/projects", projectRoutes);
 app.use("/departments", departmentRoutes);
 app.use("/events", eventRoutes);
-app.use("/comments", commentRoutes);
+app.use("/tasks", commentRoutes);
 
 export default app;
