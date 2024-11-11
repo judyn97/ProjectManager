@@ -53,6 +53,25 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
             type: 'singleSelect',
             width: 150,
             editable: true,
+            renderCell: (params) => {
+              let colorCode = "white"
+              if(params.row.status === "In Progress")
+              {
+                colorCode = "#FFD301"; //Yellow
+              }
+              else if(params.row.status === "Done")
+              {
+                colorCode = "#639754"; //Green
+              }
+              else{
+                colorCode = "#D61F1F" //Red
+              }
+              return(
+                <div className="status-style" style={{color:colorCode}}>
+                  {params.row.status}
+                </div>
+              )
+            },  
           },
           {
             field: 'progress',
