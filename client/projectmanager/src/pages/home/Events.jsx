@@ -7,6 +7,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import EventIcon from '@mui/icons-material/Event';
 import './Events.css'
+import { formatDateToLong } from "../../utils/DateFormat";
 
 function EventsTable({departmentName}){
 
@@ -44,16 +45,6 @@ function EventsTable({departmentName}){
     useEffect(() =>{
         fetchEventsList();
     }, [])
-
-    function formatDateToLong(dateString) {
-        const date = new Date(dateString);  
-        
-        return date.toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'short', 
-            year: 'numeric',
-        });
-    }
 
     function countdownDays(targetDateString) {
         const targetDate = new Date(targetDateString);

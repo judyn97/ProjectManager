@@ -1,5 +1,6 @@
 import './Events.css'
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { formatDateToLong } from "../../utils/DateFormat";
 
 
 function UpcomingTask({departmentName, departmentId, unfilteredTasks}){
@@ -34,7 +35,7 @@ function UpcomingTask({departmentName, departmentId, unfilteredTasks}){
                 ).map( (task) => (
                     <div className="event-list" key={task.task_id}>
                         <div  className="event-data">
-                            <h4>{task.due_date}</h4>
+                            <h4>{formatDateToLong(task.due_date)}</h4>
                             <p className="event-title">{task.task_name}</p>
                             <p className="event-date-countdown">Due in {countdownDays(task.due_date)} days</p>
                         </div>
