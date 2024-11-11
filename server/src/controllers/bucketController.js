@@ -20,25 +20,6 @@ export const createBucket = (req, res) => {
     });
 };
 
-export const editBucket = (req, res) => {
-    const bucketId = req.params.id;
-    const q = `
-        UPDATE buckets 
-        SET 
-            bucket_name = ?, 
-            position = ? 
-        WHERE bucket_id = ?`;
-
-    const values = [
-        req.body.bucket_name,
-        req.body.position
-    ];
-
-    db.query(q, [...values, bucketId], (err, data) => {
-        if (err) return res.json(err);
-        return res.json("Bucket updated successfully!");
-    });
-};
 
 export const editBucketPosition = (req, res) => {
     const { bucket_id, new_position } = req.body;
@@ -54,10 +35,10 @@ export const editBucketPosition = (req, res) => {
 };
 
 export const deleteBucket = (req, res) => {
-    const bucketId = req.params.id;
+    const taskId = req.params.id;
     const q = "DELETE FROM buckets WHERE bucket_id = ?";
 
-    db.query(q, [bucketId], (err,data)=> {
+    db.query(q, [taskId], (err,data)=> {
         if(err) return res.json(err)
         return res.json("Bucket has been deleted successfully");
     });

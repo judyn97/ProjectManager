@@ -29,9 +29,11 @@ export default function Component({tasksBucket, selectedProjectId, selectedDepar
 
   // Column drag start
   const onDragStartColumn = (e, status) => {
+    if(status !== 1){ //If not first column
     setDraggedColumn(status); // Set the dragged column
     e.dataTransfer.setData('type', 'column'); // Mark as column drag
     e.dataTransfer.setData('status', status); // Store column status
+    }
   };
 
 
@@ -88,6 +90,9 @@ const onDrop = async (e, category) => {
   // Handle column dropping
   else if (type === 'column') {
     const targetColumn =  bucketList.find(pos=> pos.bucket_name === category).position;
+
+    if(targetColumn !== 1){ //If not first column
+    
     const bucketId =  bucketList.find(pos=> pos.bucket_name === category).bucket_id;
     const columns = bucketList.map((pos)=> pos.position);
 
@@ -130,6 +135,7 @@ const onDrop = async (e, category) => {
     setTasks(reorderedTasks); // Update state with reordered columns
     setDraggedColumn(null); // Reset the dragged column
   }
+  }
 };
 
   const addTask = (status) => {
@@ -145,12 +151,25 @@ const onDrop = async (e, category) => {
     }
   }
 
-  const addColumn = () => {
+  const addColumn = async () => {
     const columnName = prompt('Enter new column name:')
-    if (columnName && !tasks[columnName]) {
+    const newPosition = bucketList.length + 1;
+    if (columnName && !tasks[newPosition]) {
+      console.log("Thanks do",newPosition)
+      try {
+        // First request: Update dragged column's position
+        await axios.post(`http://localhost:8800/buckets`, {
+          bucket_name: columnName,
+          position: bucketList.length
+        });
+          fetchBucketsList();
+        } catch (error) {
+          console.error("Error updating Columns:", error);
+        }
+
       setTasks(prevTasks => ({
         ...prevTasks,
-        [columnName.toLowerCase()]: []
+        [columnName]: []
       }))
     }
   }
