@@ -3,6 +3,7 @@ import {useState} from 'react';
 import DataTable from '../../components/dataTable/dataTable';
 import AddTask from './AddTask';
 import EditTask from './EditTask';
+import { formatDateToLong } from '../../utils/DateFormat';
 
 function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks, bucketList }){
   const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
           width: 110,
           editable: true,
           valueGetter: (value) => value && new Date(value),
-          valueFormatter: (value) => formatDate(value),
+          valueFormatter: (value) => formatDateToLong(value),
         },
         {
             field: 'due_date',
@@ -45,7 +46,7 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
             width: 110,
             editable: true,
             valueGetter: (value) => value && new Date(value),
-            valueFormatter: (value) => formatDate(value),
+            valueFormatter: (value) => formatDateToLong(value),
           },
           {
             field: 'status',

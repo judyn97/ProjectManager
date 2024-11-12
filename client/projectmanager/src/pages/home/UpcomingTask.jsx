@@ -19,8 +19,6 @@ function UpcomingTask({departmentName, departmentId, unfilteredTasks}){
         return daysRemaining
     }
     
-    console.log(countdownDays("2024-10-27"))
-
     return(
         <div className="event-container">
         <div className="event-header">
