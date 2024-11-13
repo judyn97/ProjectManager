@@ -8,10 +8,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import EventIcon from '@mui/icons-material/Event';
 import './Events.css'
 import { formatDateToLong } from "../../utils/DateFormat";
+import DeleteModal from "../../components/deleteConfirmation/deleteModal";
 
 function EventsTable({departmentName}){
 
     const [open, setOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setOpen(false);
@@ -86,12 +88,10 @@ function EventsTable({departmentName}){
 
     const handleChange = (e) => {
         setAddEvent((prev) => ({...prev, [e.target.name]:e.target.value}))
-        console.log("Add tasks", addEvent)
     }
 
     const handleDelete = async (id) =>{
         try{
-            console.log("deleted", id)
             await axios.delete(`http://localhost:8800/events/${id}`);
             fetchEventsList();
         }
@@ -162,7 +162,13 @@ function EventsTable({departmentName}){
                     </div>
                     <div className="event-data-action">
                         <button onClick={() => handleEdit(event)}><EditIcon style={{color: 'white', fontSize: '20'}}/></button>
-                        <button onClick={() => handleDelete(event.event_id)}><DeleteForeverIcon style={{color: 'white', fontSize: '20'}}/></button>
+                        <button onClick={() => setIsModalOpen(true)}><DeleteForeverIcon style={{color: 'white', fontSize: '20'}}/></button>
+                        <DeleteModal 
+                          open={isModalOpen} 
+                          setOpen={setIsModalOpen} 
+                          onConfirm={()=>handleDelete(event.event_id)} 
+                          message={`Are you sure you want to delete the event?`} 
+                        />
                     </div>
                 </div>
             )}
