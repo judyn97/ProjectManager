@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import './TaskBoard.css';
 import axios from 'axios';
 import AddTask from '../tasks/AddTask';
+import EditTask from '../tasks/EditTask';
+import { formatDate } from '../../../../../server/src/utils/dateUtils';
 import { columns } from '../../utils/taskColumnData';
 import { PlusIcon } from 'lucide-react'
 
@@ -9,6 +11,8 @@ export default function Component({tasksBucket, selectedProjectId, selectedDepar
   const [tasks, setTasks] = useState({})
   const [draggedColumn, setDraggedColumn] = useState(null);
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
   const currentBucket = useRef("");
 
   useEffect(() => {
@@ -166,6 +170,17 @@ const onDrop = async (e, category) => {
     currentBucket.current = id;
   }
 
+  const handleEdit = (task_id) => {
+    const taskItem = tasksBucket.find(item => item.task_id === task_id)
+    const formattedTask = {
+      ...taskItem,
+      start_date: formatDate(taskItem.start_date),
+      due_date: formatDate(taskItem.due_date),
+    };
+    setEditingTask(formattedTask);
+    setEditOpen(true);
+  };
+
   if( (selectedProjectId === 0) || (selectedDepartmentId === 0)){
     return <h2 className="not-selected">Please select a project and department first</h2>;
   }
@@ -194,6 +209,7 @@ const onDrop = async (e, category) => {
               className="kanban-item"
               draggable
               onDragStart={(e) => onDragStartTask(e, task.id)}
+              onClick={() => handleEdit(task.id)}
             >
               {task.content}
             </div>
@@ -214,7 +230,17 @@ const onDrop = async (e, category) => {
               selectedDepartmentId={selectedDepartmentId}
               bucketList={bucketList}
               bucket_id={currentBucket}
-            />)}
+            />
+      )}
+      {editOpen && (
+        <EditTask
+          task={editingTask}
+          columns={columns}
+          setOpen={setEditOpen}
+          onUpdate={fetchAllTasks}
+          bucketList={bucketList}
+        />
+      )}
 
       {/* Add Column Button */}
       <button className="add-column-btn" onClick={addColumn}>
