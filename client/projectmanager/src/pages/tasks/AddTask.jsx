@@ -10,10 +10,11 @@ function AddTask(props){
         task_name:"",
         start_date:"",
         due_date:"",
-        status:"",
+        status:"Not started",
         progress:"",
         description:"",
-        person_in_charge:""
+        person_in_charge:"",
+        bucket_id:"6" //Unassigned
     })
 
     const handleChange = (e) => {
