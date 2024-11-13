@@ -50,6 +50,7 @@
     background-color: #dfe1e6;
   }
   .add-column-btn {
+    width: 300px;
     background-color: #2a3447;
     margin-left: 20px;
   }

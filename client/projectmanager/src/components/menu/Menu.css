@@ -24,7 +24,8 @@
             -o-border-radius: 5px;
 }
 
-        .listItem:hover{
+        .listItem:hover,
+        .active{
             background-color: #384256 ;
         }
     }
