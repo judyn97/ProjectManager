@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './TaskBoard.css';
 import axios from 'axios';
-// import { PlusIcon } from 'lucide-react'
+import AddTask from '../tasks/AddTask';
+import { columns } from '../../utils/taskColumnData';
+import { PlusIcon } from 'lucide-react'
 
 export default function Component({tasksBucket, selectedProjectId, selectedDepartmentId,fetchAllTasks, fetchBucketsList, bucketList}) {
   const [tasks, setTasks] = useState({})
   const [draggedColumn, setDraggedColumn] = useState(null);
+  const [open, setOpen] = useState(false);
+  const currentBucket = useRef("");
 
   useEffect(() => {
     const groupedTasks = tasksBucket.reduce((acc, task) => {
@@ -64,8 +68,6 @@ const onDrop = async (e, category) => {
 
     // Add the task to the new category (column)
     if (taskToMove) {
-      //newTasks[category].push(taskToMove);
-
       // Find the new bucket_id from the bucketList
       const newBucket = bucketList.find(bucket => bucket.bucket_name === category);
       const newBucketId = newBucket ? newBucket.bucket_id : null;
@@ -96,8 +98,6 @@ const onDrop = async (e, category) => {
     const bucketId =  bucketList.find(pos=> pos.bucket_name === category).bucket_id;
     const columns = bucketList.map((pos)=> pos.position);
 
-    // const draggedIndex = columns.indexOf(draggedColumn);
-    // const targetIndex = columns.indexOf(targetColumn);
     const draggedBucketId = bucketList.find(pos => pos.position === draggedColumn).bucket_id;
     const draggedIndex = draggedColumn;
     const targetIndex = targetColumn;
@@ -138,19 +138,6 @@ const onDrop = async (e, category) => {
   }
 };
 
-  const addTask = (status) => {
-    const newTaskContent = prompt('Enter new task:')
-    if (newTaskContent) {
-      setTasks(prevTasks => ({
-        ...prevTasks,
-        [status]: [
-          ...prevTasks[status],
-          { id: `t${Date.now()}`, content: newTaskContent }
-        ]
-      }))
-    }
-  }
-
   const addColumn = async () => {
     const columnName = prompt('Enter new column name:')
     const newPosition = bucketList.length + 1;
@@ -172,6 +159,11 @@ const onDrop = async (e, category) => {
         [columnName]: []
       }))
     }
+  }
+
+  const handleAddTask = (id) => {
+    setOpen(true); 
+    currentBucket.current = id;
   }
 
   if( (selectedProjectId === 0) || (selectedDepartmentId === 0)){
@@ -208,15 +200,25 @@ const onDrop = async (e, category) => {
           ))}
 
           {/* Add Task Button */}
-          <button className="add-task-btn" onClick={() => addTask(bucket.bucket_name)}>
-            Add Task
+          <button className="add-task-btn" onClick={() => handleAddTask(bucket.bucket_id)}>
+            <PlusIcon/> Add Task
           </button>
         </div>
       ))}
+      {open && (<AddTask
+              slug="AddTask"
+              columns={columns}
+              setOpen={setOpen}
+              onUpdate={fetchAllTasks}
+              selectedProjectId={selectedProjectId}
+              selectedDepartmentId={selectedDepartmentId}
+              bucketList={bucketList}
+              bucket_id={currentBucket}
+            />)}
 
       {/* Add Column Button */}
       <button className="add-column-btn" onClick={addColumn}>
-        Add Column
+      <PlusIcon/> Add Column
       </button>
     </div>
   );  

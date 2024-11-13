@@ -3,6 +3,10 @@ import {useState} from 'react';
 import axios from 'axios';
 
 function AddTask(props){
+    let bucketIdInit = "6"; //Unassigned
+    if(props.bucket_id){
+        bucketIdInit = props.bucket_id.current;
+    }
 
     const[addTask, setAddTask] = useState({
         project_id: props.selectedProjectId,
@@ -14,7 +18,7 @@ function AddTask(props){
         progress:"",
         description:"",
         person_in_charge:"",
-        bucket_id:"6" //Unassigned
+        bucket_id: bucketIdInit//Unassigned
     })
 
     const handleChange = (e) => {
