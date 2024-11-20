@@ -20,6 +20,15 @@ function EditTask({ task, columns, setOpen, onUpdate, bucketList }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const startDate = new Date(editTask.start_date);
+    const dueDate = new Date(editTask.due_date);
+
+    if (startDate > dueDate) {
+        alert("Start date cannot be later than the due date. Please correct the dates.");
+        return; 
+    }
+
     try {
       const submissionData = {
         ...editTask,

@@ -27,6 +27,14 @@ function AddTask(props){
 
     const handleClick = async e => {
         e.preventDefault();
+        const startDate = new Date(addTask.start_date);
+        const dueDate = new Date(addTask.due_date);
+
+        if (startDate > dueDate) {
+            alert("Start date cannot be later than the due date. Please correct the dates.");
+            return; 
+        }
+
         try {
             await axios.post("http://localhost:8800/tasks", addTask);
             props.setOpen(false);
