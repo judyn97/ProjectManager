@@ -1,18 +1,25 @@
+import { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import './dataTable.css';
+import DeleteModal from "../deleteConfirmation/deleteModal";
 import axios from 'axios';
 import editIcon from '../../assets/edit.svg';
 import deleteIcon from '../../assets/delete.svg';
 
 const DataTable = ({ rows, columns, onEdit, onDelete }) => {
+
+    
+
     const handleDelete = async (id)=>{
-        try {
-            await axios.delete("http://localhost:8800/tasks/"+id);
-            onDelete();
-        } catch (error) {
-            console.log(error);
-        }
+      try {
+          await axios.delete("http://localhost:8800/tasks/"+id);
+          onDelete();
+      } catch (error) {
+          console.log(error);
+      }
     };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const actionColumn = {
         field:"action",
@@ -25,7 +32,13 @@ const DataTable = ({ rows, columns, onEdit, onDelete }) => {
                         <img src={editIcon} alt="" onClick={() => onEdit(params.row)}/>
                     </div>
                     <div className="delete">
-                        <img src={deleteIcon} alt="" onClick={()=>handleDelete(params.row.task_id)}/>
+                        <img src={deleteIcon} alt="" onClick={()=>setIsModalOpen(true)}/>
+                        <DeleteModal 
+                          open={isModalOpen} 
+                          setOpen={setIsModalOpen} 
+                          onConfirm={()=>handleDelete(params.row.task_id)} 
+                          message={`Are you sure you want to delete the task?`} 
+                        />
                     </div>
                 </div>
             )
@@ -42,7 +55,7 @@ const DataTable = ({ rows, columns, onEdit, onDelete }) => {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 15,
             },
           },
         }}
@@ -53,10 +66,9 @@ const DataTable = ({ rows, columns, onEdit, onDelete }) => {
                 quickFilterProps: {debounceMs: 500 }
             }
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[15]}
         disableCheckboxSelection
         disableRowSelectionOnClick
-        disableColumnFilter
         disableDensitySelector
         disableColumnSelector
       />
