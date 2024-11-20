@@ -1,3 +1,4 @@
+import { AlignCenter } from "lucide-react";
 import { formatDateToLong } from "./DateFormat";
 
 export const columns = [
@@ -6,12 +7,14 @@ export const columns = [
       headerName: 'PIC',
       width: 150,
       editable: true,
+      flex: 1,
     },
     {
       field: 'task_name',
       headerName: 'Task name',
       width: 500,
       editable: true,
+      flex: 4
     },
     {
       field: 'start_date',
@@ -19,6 +22,7 @@ export const columns = [
       type: 'date',
       width: 110,
       editable: true,
+      flex: 1,
       valueGetter: (value) => value && new Date(value),
       valueFormatter: (value) => formatDateToLong(value),
     },
@@ -28,6 +32,7 @@ export const columns = [
         type: 'date',
         width: 110,
         editable: true,
+        flex: 1,
         valueGetter: (value) => value && new Date(value),
         valueFormatter: (value) => formatDateToLong(value),
       },
@@ -37,6 +42,7 @@ export const columns = [
         type: 'singleSelect',
         width: 150,
         editable: true,
+        flex: 1,
         renderCell: (params) => {
           let colorCode = "white"
           if(params.row.status === "In Progress")
@@ -62,6 +68,7 @@ export const columns = [
         headerName: 'Percentage',
         width: 150,
         editable: true,
+        flex: 1
       },
       {
         field: 'bucket_id',
@@ -69,6 +76,7 @@ export const columns = [
         type: 'singleSelect',
         width: 150,
         editable: true,
+        flex: 1,
         renderCell: (params) => params.row.bucket_name,
       },
   ];

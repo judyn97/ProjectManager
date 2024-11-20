@@ -25,7 +25,6 @@ const DataTable = ({ rows, columns, onEdit, onDelete }) => {
         field:"action",
         headerName:"Action",
         width:200,
-        flex: 1, 
         renderCell:(params)=>{
             return(
                 <div className="action">
@@ -72,7 +71,6 @@ const DataTable = ({ rows, columns, onEdit, onDelete }) => {
         disableRowSelectionOnClick
         disableDensitySelector
         disableColumnSelector
-        disableExtendRowFullWidth={true}
       />
     </div>
   )
