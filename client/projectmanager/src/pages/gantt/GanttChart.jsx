@@ -4,7 +4,6 @@ import "gantt-task-react/dist/index.css";
 import './GanttChart.css';
 import axios from 'axios';
 
-function GanttChart({ tasks, selectedProjectId, selectedDepartmentId}) {
 function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks}) {
     function transformTasks(tasks) {
         return tasks.map(task => ({
