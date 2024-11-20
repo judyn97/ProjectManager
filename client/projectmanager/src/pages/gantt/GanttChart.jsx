@@ -1,10 +1,12 @@
-import React from 'react';
+import {React, useState} from 'react';
 import { GanttOriginal, ViewMode } from "react-gantt-chart";
 import "gantt-task-react/dist/index.css";
 import './GanttChart.css';
 import axios from 'axios';
 
 function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks}) {
+    const [isChecked, setIsChecked] = useState(true)
+
     function transformTasks(tasks) {
         return tasks.map(task => ({
             start: new Date(task.start_date),
@@ -87,14 +89,26 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTa
 
     return (
         <div>
-            <h2>Task Gantt Chart</h2>
+            <h2>Task Gantt Chart</h2>   
             <div className="gantt-container">
+                <div className='Switch'>
+                  <label className='Switch_Toggle'>
+                    <input
+                      type='checkbox'
+                      defaultChecked={isChecked}
+                      onClick={() => setIsChecked(!isChecked)}
+                    />
+                    <span className='Slider' />
+                  </label>
+                  Show Task List
+                </div>
                 <GanttOriginal
 		        	tasks={transformTasks(tasks)}
 		        	viewMode={ViewMode.Day}
                     todayColor='grey'
                     onDateChange={handleDateChange}
                     onProgressChange={handleProgressChange}
+                    listCellWidth={isChecked ? "155px" : ""}
 		        />
             </div>
         </div>
