@@ -34,10 +34,12 @@ function TaskList({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTask
     return(
       <div className="task-list-container">
       <div className="info">
-        <h2>Task List</h2>
-        <button onClick={() => setOpen(true)}>
-          Add Task
-        </button>
+        <div className='header-container'>
+          <h2>Task List</h2>
+          <button className='add-button' onClick={() => setOpen(true)}>
+            Add Task
+          </button>
+        </div>
       </div>
       <DataTable
         columns={columns}
