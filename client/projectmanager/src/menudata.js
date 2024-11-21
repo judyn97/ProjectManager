@@ -53,6 +53,12 @@ export const menu= [
                 url: "/TaskBurdenBar",
                 icon:""
             },
+            {
+                id: 4,
+                title: "Project Setting",
+                url: "/ProjectSetting",
+                icon:""
+            },
 
         ]
     },

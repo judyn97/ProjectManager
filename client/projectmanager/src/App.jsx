@@ -12,6 +12,7 @@ import Navbar from "./components/navbar/Navbar.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import Menu from "./components/menu/Menu.jsx";
 import Home from "./pages/home/Home.jsx";
+import ProjectSetting from './pages/project-settings/ProjectSetting.jsx';
 
 import {createBrowserRouter, BrowserRouter, Routes, Route, RouterProvider, Outlet} from "react-router-dom";
 import {
@@ -120,6 +121,10 @@ function App() {
         {
           path: "/TaskBurdenBar",
           element: <TaskBurdenBar tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
+        },
+        {
+          path: "/ProjectSetting",
+          element: <ProjectSetting />,
         },
       ],
     },
