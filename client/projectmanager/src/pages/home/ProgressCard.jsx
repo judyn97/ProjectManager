@@ -1,6 +1,7 @@
 import CircularProgressWithLabel from './CircularProgress'; 
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import './ProgressCard.css';
+import NewTaskCard from './NewTaskCard';
 
 function ProgressCard({ departmentName, departmentId, unfilteredTasks }) {
   const departmentTasks = unfilteredTasks.filter(
@@ -46,11 +47,15 @@ function ProgressCard({ departmentName, departmentId, unfilteredTasks }) {
             {completedTask} of {totalTask} tasks completed
           </p>
         </div>
-        <div className='grid-2'>
-            New Task Added
-        </div>
-        <div className='grid-3'>
-            Percentage vs
+        <div className="progresscard-container grid-2">
+          <span className='this-week-text'>This week</span>
+          <div className='new-task-section'>
+              <NewTaskCard unfilteredTasks = {unfilteredTasks} departmentId={departmentId}/>
+              <span className='this-week-text'>New Task</span>
+          </div>
+          <div className='done-task-section'>
+              <span className='this-week-text'>TBD</span>
+          </div>
         </div>
     </div>
   );
