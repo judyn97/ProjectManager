@@ -3,7 +3,7 @@ import './TaskBoard.css';
 import apiClient, {endpoints} from '../../api';
 import AddTask from '../tasks/AddTask';
 import EditTask from '../tasks/EditTask';
-import { formatDate } from '../../../../../server/src/utils/dateUtils';
+import { formatDate } from '../../utils/DateFormat';
 import { columns } from '../../utils/taskColumnData';
 import { PlusIcon } from 'lucide-react'
 
