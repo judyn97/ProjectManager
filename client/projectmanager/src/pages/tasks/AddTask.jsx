@@ -1,6 +1,6 @@
 import './AddTask.css';
 import {useState} from 'react';
-import axios from 'axios';
+import apiClient, {endpoints} from '../../api';
 
 function AddTask(props){
     let bucketIdInit = "6"; //Unassigned
@@ -36,7 +36,7 @@ function AddTask(props){
         }
 
         try {
-            await axios.post("http://localhost:8800/tasks", addTask);
+            await apiClient.post(endpoints.tasks, addTask);
             props.setOpen(false);
             props.onUpdate();
         } catch (error) {

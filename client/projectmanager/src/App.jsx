@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient, {endpoints} from './api.js';
 import './styles/global.css';
 import TaskBurdenBar from "./pages/task-burden/TaskBurdenBar.jsx";
 import BurnupChart from "./pages/burntUp/BurnUpChart.jsx";
@@ -33,7 +33,7 @@ function App() {
 
   const fetchBucketsList = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/buckets");
+      const res = await apiClient.get(endpoints.buckets);
       setBucketList(res.data);
     } catch (err) {
       console.log(err);
@@ -46,7 +46,7 @@ function App() {
 
   const fetchAllTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/tasks");
+      const res = await apiClient.get(endpoints.tasks);
       setUnfilteredTasks(res.data);
       const filteredTasks = res.data.filter(
         item =>

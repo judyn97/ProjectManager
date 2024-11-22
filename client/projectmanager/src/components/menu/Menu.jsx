@@ -5,7 +5,6 @@ import {menu} from "../../menudata"
 
 const Menu = () => {
   const [selectedItem, setSelectedItem] = useState();
-  console.log("Select", selectedItem)
 
   return (
     <div className="menu">

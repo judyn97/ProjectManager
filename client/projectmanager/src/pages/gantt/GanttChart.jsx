@@ -2,7 +2,7 @@ import {React, useState} from 'react';
 import { GanttOriginal, ViewMode } from "react-gantt-chart";
 import "gantt-task-react/dist/index.css";
 import './GanttChart.css';
-import axios from 'axios';
+import apiClient, {endpoints} from '../../api';
 
 function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTasks}) {
     const [isChecked, setIsChecked] = useState(true)
@@ -58,7 +58,7 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTa
             due_date: formatDate(task.end),
           };
         try{
-            await axios.put(`http://localhost:8800/tasks/${task_id}/date`, submissionData);
+            await apiClient.put(endpoints.taskDate(task_id), submissionData);
             fetchAllTasks();
         }
         catch (error) {
@@ -79,7 +79,7 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTa
         let task_id = extractNumber(task.id)
 
         try{
-            await axios.put(`http://localhost:8800/tasks/${task_id}/progress`, submissionData);
+            await apiClient.put(endpoints.taskProgress(task_id), submissionData);
             fetchAllTasks();
         }
         catch (error) {

@@ -1,6 +1,6 @@
 import "./Navbar.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient, {endpoints} from "../../api";
 import Dropdown from "../dropdown/Dropdown";
 import headerLogo from "../../assets/yamaha.svg";
 
@@ -12,7 +12,7 @@ const Navbar = (props) => {
     useEffect(()=> {
         const fetchAllProjects = async ()=>{
             try{
-                const res = await axios.get("http://localhost:8800/projects");
+                const res = await apiClient.get(endpoints.projects);
                 setProjects(res.data);
                 console.log(projects);
             }catch(err){
@@ -25,7 +25,7 @@ const Navbar = (props) => {
     useEffect(()=> {
         const fetchAllDepartments = async ()=>{
             try{
-                const res = await axios.get("http://localhost:8800/departments");
+                const res = await apiClient.get(endpoints.departments);
                 setDepartments(res.data);
                 console.log(departments);
             }catch(err){

@@ -1,6 +1,6 @@
 import './AddTask.css';
 import { useState } from 'react';
-import axios from 'axios';
+import apiClient, {endpoints} from '../../api';
 import Comments from '../../components/comments/Comment';
 
 function EditTask({ task, columns, setOpen, onUpdate, bucketList }) {
@@ -35,7 +35,7 @@ function EditTask({ task, columns, setOpen, onUpdate, bucketList }) {
         start_date: formatDateForSubmission(editTask.start_date),
         due_date: formatDateForSubmission(editTask.due_date),
       };
-      await axios.put(`http://localhost:8800/tasks/${task.task_id}`, submissionData);
+      await apiClient.put(endpoints.taskById(task.task_id), submissionData);
       setOpen(false);
       onUpdate();
     } catch (error) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient, {endpoints} from "../../api";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -36,7 +36,7 @@ function EventsTable({departmentName}){
 
     const fetchEventsList = async () => {
         try{
-            const res = await axios.get("http://localhost:8800/events");
+            const res = await apiClient.get(endpoints.events);
             setEventList(res.data);
         }
         catch(err){
@@ -73,9 +73,9 @@ function EventsTable({departmentName}){
         e.preventDefault();
         try{
             if (editEvent) {
-                await axios.put(`http://localhost:8800/events/${editEvent.event_id}`, addEvent);
+                await apiClient.put(endpoints.eventById(editEvent.event_id), addEvent);
             } else {
-                await axios.post("http://localhost:8800/events", addEvent);
+                await apiClient.post(endpoints.events, addEvent);
             }
             fetchEventsList();  
             handleClose();  
@@ -87,12 +87,13 @@ function EventsTable({departmentName}){
     }
 
     const handleChange = (e) => {
+        console.log("Type..", addEvent)
         setAddEvent((prev) => ({...prev, [e.target.name]:e.target.value}))
     }
 
     const handleDelete = async (id) =>{
         try{
-            await axios.delete(`http://localhost:8800/events/${id}`);
+            await apiClient.delete(endpoints.eventById(id));
             fetchEventsList();
         }
         catch(err)

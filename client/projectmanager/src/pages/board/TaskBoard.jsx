@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './TaskBoard.css';
-import axios from 'axios';
+import apiClient, {endpoints} from '../../api';
 import AddTask from '../tasks/AddTask';
 import EditTask from '../tasks/EditTask';
 import { formatDate } from '../../../../../server/src/utils/dateUtils';
@@ -79,11 +79,10 @@ const onDrop = async (e, category) => {
       // Make a PUT request to update the bucket_id in the database
       if (newBucketId) {
         try {
-          await axios.put(`http://localhost:8800/tasks/${numericId}/bucket`, {
+          await apiClient.put(endpoints.taskBucket(numericId), {
             bucket_id: newBucketId,
           });
           fetchAllTasks();
-          console.log(`Task ${numericId} updated with new bucket_id: ${newBucketId}`);
         } catch (error) {
           console.error("Error updating bucket_id:", error);
         }
@@ -112,13 +111,13 @@ const onDrop = async (e, category) => {
 
     try {
       // First request: Update dragged column's position
-      await axios.put(`http://localhost:8800/buckets/updatePosition`, {
+      await apiClient.put(endpoints.updateBucketPosition, {
         bucket_id: draggedBucketId,
         new_position: targetIndex
       });
 
       // Second request: Update target column's position
-      await axios.put(`http://localhost:8800/buckets/updatePosition`, {
+      await apiClient.put(endpoints.updateBucketPosition, {
           bucket_id: bucketId,
           new_position: draggedIndex
       });
@@ -149,7 +148,7 @@ const onDrop = async (e, category) => {
       console.log("Thanks do",newPosition)
       try {
         // First request: Update dragged column's position
-        await axios.post(`http://localhost:8800/buckets`, {
+        await apiClient.post(endpoints.buckets, {
           bucket_name: columnName,
           position: bucketList.length
         });

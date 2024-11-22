@@ -3,7 +3,7 @@ import "./ProjectSetting.css";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import axios from "axios";
+import apiClient, {endpoints} from "../../api";
 import deleteIcon from "../../assets/delete.svg";
 import editIcon from "../../assets/edit.svg"   
 import DeleteModal from "../../components/deleteConfirmation/deleteModal";
@@ -56,7 +56,7 @@ const ProjectSetting = () => {
 
   const fetchProjectList = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/projects");
+      const res = await apiClient.get(endpoints.projects);
       setProjectList(res.data);
     } catch (err) {
       console.log(err);
@@ -65,7 +65,7 @@ const ProjectSetting = () => {
 
   const fetchDepartmentList = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/departments");
+      const res = await apiClient.get(endpoints.departments);
       setDepartmentList(res.data);
     } catch (err) {
       console.log(err);
@@ -98,9 +98,9 @@ const ProjectSetting = () => {
     try {
       const url =
         type === "project"
-          ? `http://localhost:8800/projects/${id}`
-          : `http://localhost:8800/departments/${id}`;
-      await axios.delete(url);
+          ? endpoints.projectById(id)
+          : endpoints.departmentById(id);
+      await apiClient.delete(url);
   
       // Refetch the relevant list
       if (type === "project") {
@@ -127,14 +127,14 @@ const ProjectSetting = () => {
       if (editId) {
         const url =
           modalType === "project"
-            ? `http://localhost:8800/projects/${editId}`
-            : `http://localhost:8800/departments/${editId}`;
-        await axios.put(url, formData);
+            ? endpoints.projectById(editId)
+            : endpoints.departmentById(editId);
+        await apiClient.put(url, formData);
       } else {
         if (modalType === "project") {
-          await axios.post("http://localhost:8800/projects", { project_name: formData.project_name });
+          await apiClient.post(endpoints.projects, { project_name: formData.project_name });
         } else if (modalType === "department") {
-          await axios.post("http://localhost:8800/departments", { department_name: formData.department_name });
+          await apiClient.post(endpoints.departments, { department_name: formData.department_name });
         }
       }
       modalType === "project" ? fetchProjectList() : fetchDepartmentList();

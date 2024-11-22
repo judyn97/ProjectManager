@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient, {endpoints} from '../../api';
 import './Comment.css'
 
 const Comments = ({ taskId }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
-    // Fetch comments on component mount
     useEffect(() => {
-        axios.get(`http://localhost:8800/tasks/${taskId}/comments`)
-            .then(res => {
-                console.log("taskId",taskId)
-                setComments(res.data);
-                console.log("comment",res.data)
-            })
-            .catch(err => {
-                console.error("Error fetching comments", err);
-            });
+      const fetchComments = async () => {
+        try {
+          const res = await apiClient.get(endpoints.taskComments(taskId));
+          setComments(res.data);
+        } catch (err) {
+          console.error("Error fetching comments", err);
+        }
+      };
+    
+      fetchComments();
     }, [taskId]);
 
-    // Handle new comment submission
     const handleAddComment = () => {
-        const userId = 1; // Use the actual logged-in user's ID here
-        axios.post(`http://localhost:8800/tasks/${taskId}/comments`, { userId, commentText: newComment })
-            .then(res => {
-                setComments([...comments, { comment_text: newComment, user_id: userId }]);
-                setNewComment(""); // Clear the input field
-            })
-            .catch(err => {
-                console.error("Error adding comment", err);
-            });
+      const userId = 1; // Use the actual logged-in user's ID here
+      apiClient.post(endpoints.taskComments(taskId), { userId, commentText: newComment })
+        .then(res => {
+          setComments([...comments, { comment_text: newComment, user_id: userId }]);
+          setNewComment(""); // Clear the input field
+        })
+        .catch(err => {
+          console.error("Error adding comment", err);
+        });
     };
 
     return (

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import './dataTable.css';
 import DeleteModal from "../deleteConfirmation/deleteModal";
-import axios from 'axios';
+import apiClient, {endpoints} from "../../api";
 import editIcon from '../../assets/edit.svg';
 import deleteIcon from '../../assets/delete.svg';
 
@@ -12,7 +12,7 @@ const DataTable = ({ rows, columns, onEdit, onDelete }) => {
 
     const handleDelete = async (id)=>{
       try {
-          await axios.delete("http://localhost:8800/tasks/"+id);
+          await apiClient.delete(endpoints.taskById(id));
           onDelete();
       } catch (error) {
           console.log(error);
