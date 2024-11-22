@@ -1,5 +1,5 @@
 import React from 'react';
-import './home.css';
+import './Home.css';
 import ProgressCard from './ProgressCard';
 import EventsTable from './Events.jsx';
 import UpcomingTask from './UpcomingTask.jsx';
