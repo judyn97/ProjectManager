@@ -1,0 +1,15 @@
+.burden-bar-container{
+    height: 100%;
+    background-color: whitesmoke;
+    color: black;
+    border-radius: 15px;
+    padding: 10px;
+  
+    .header-container{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+  }

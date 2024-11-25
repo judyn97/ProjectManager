@@ -1,4 +1,5 @@
 import { BarChart } from '@mui/x-charts/BarChart';
+import './TaskBurdenBar.css'
 
 function TaskBurdenBar({ tasks, selectedProjectId, selectedDepartmentId }) {
     // Filter only tasks that are "In Progress"
@@ -22,8 +23,10 @@ function TaskBurdenBar({ tasks, selectedProjectId, selectedDepartmentId }) {
     }
 
     return (
-        <div>
-            <h2>Task Burden Bar</h2>
+        <div className='burden-bar-container'>
+            <div className='header-container'>
+                <h2>Task Burden Bar</h2>
+            </div>
             <BarChart style={{backgroundColor: "white"}}
                 xAxis={[{ scaleType: 'band', data: members }]} // xAxis with dynamic person names
                 series={[{ data: taskCounts }]} // Series data with dynamic task counts
