@@ -88,9 +88,11 @@ function GanttChart({ tasks, selectedProjectId, selectedDepartmentId, fetchAllTa
     }
 
     return (
-        <div>
-            <h2>Task Gantt Chart</h2>   
-            <div className="gantt-container">
+        <div className='gantt-container'>
+            <div className='header-container'>
+                <h2>Gantt Chart</h2>
+            </div>
+            <div className="gantt-box">
                 <div className='Switch'>
                   <label className='Switch_Toggle'>
                     <input
