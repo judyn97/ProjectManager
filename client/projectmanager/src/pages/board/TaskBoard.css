@@ -1,3 +1,11 @@
+.board-container{
+  height: 100%;
+  background-color: whitesmoke;
+  color: black;
+  border-radius: 15px;
+  padding: 10px;
+}
+
 .kanban-board {
     display: flex;
     justify-content: flex-start;
@@ -6,6 +14,7 @@
     background-color: #f4f5f7;
     border-radius: 5px;
     overflow-x: auto;
+    height:95%;
     min-height: 500px;
   }
   .kanban-column {
@@ -29,6 +38,7 @@
     box-shadow: 0 1px 0 rgba(9,30,66,.25);
     cursor: pointer;
     transition: background-color 0.3s ease;
+    color: white;
   }
   .kanban-item:hover {
     background-color: #f4f5f7;
@@ -52,6 +62,7 @@
   .add-column-btn {
     width: 300px;
     background-color: #2a3447;
+    color: white;
     margin-left: 20px;
   }
   @media (max-width: 768px) {

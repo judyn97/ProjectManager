@@ -185,7 +185,14 @@ const onDrop = async (e, category) => {
   }
 
   return (
+    <div className='board-container'>
+    <div className='header'>
+      <div className='header-container'>
+        <h2>Task Board</h2>
+      </div>
+    </div>
     <div className="kanban-board">
+      
       {/* Loop through bucketList to create columns */}
       {bucketList
       .slice()
@@ -245,6 +252,7 @@ const onDrop = async (e, category) => {
       <button className="add-column-btn" onClick={addColumn}>
       <PlusIcon/> Add Column
       </button>
+    </div>
     </div>
   );  
 }
