@@ -54,7 +54,7 @@ const Navbar = (props) => {
             <img src="" alt="" className="icon"/>
             <img src="" alt="" className="icon"/>
             <div className="user">
-             <button onClick={() => handleLogOut()}>Log Out</button>
+             <button className="logout-button" onClick={() => handleLogOut()}>Log Out</button>
              <img src="/assets/react.svg" alt="" className="icon"/>
              <span>Jalal</span>
             </div>

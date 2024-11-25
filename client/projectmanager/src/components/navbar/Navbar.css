@@ -5,6 +5,11 @@
     align-items: center;
     justify-content: space-between;
 
+    .logout-button{
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
     .logo{
         display: flex;
         align-items: center;
