@@ -64,8 +64,10 @@ const BurnupChart = ({ tasks, selectedProjectId, selectedDepartmentId}) => {
   const chartData = processData();
 
   return (
-    <div>
-      <h2>Burnt Up Chart</h2>
+    <div className='burnt-up-container'>
+      <div className='header-container'>
+        <h2>Burn Up Chart</h2>
+      </div>
       <ChartContainer className='burnUpChart-container'>
         <LineChart
           // Set the dimensions of the chart
