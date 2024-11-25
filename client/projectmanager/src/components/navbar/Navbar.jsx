@@ -35,6 +35,10 @@ const Navbar = (props) => {
         fetchAllDepartments();
     }, [])
 
+    const handleLogOut = () => {
+        /*Handle Log Out Process here*/
+    }
+
   return (
     <div className="navbar">
         <div className="logo">
@@ -50,6 +54,7 @@ const Navbar = (props) => {
             <img src="" alt="" className="icon"/>
             <img src="" alt="" className="icon"/>
             <div className="user">
+             <button onClick={() => handleLogOut()}>Log Out</button>
              <img src="/assets/react.svg" alt="" className="icon"/>
              <span>Jalal</span>
             </div>
