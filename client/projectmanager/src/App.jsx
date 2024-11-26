@@ -29,6 +29,8 @@ import Session from "supertokens-auth-react/recipe/session";
 import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react/ui";
 import { EmailPasswordPreBuiltUI } from 'supertokens-auth-react/recipe/emailpassword/prebuiltui';
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import EmailVerification from "supertokens-auth-react/recipe/emailverification";
+import { EmailVerificationPreBuiltUI } from "supertokens-auth-react/recipe/emailverification/prebuiltui";
 import * as reactRouterDom from "react-router-dom";
 import axios from 'axios';
 import { getDataGridUtilityClass } from '@mui/x-data-grid';
@@ -45,7 +47,13 @@ SuperTokens.init({
     apiBasePath: "/auth",
     websiteBasePath: "/auth",
   },
-  recipeList: [EmailPassword.init(), Session.init()],
+  recipeList: [
+    EmailPassword.init(), 
+    Session.init(),
+    EmailVerification.init({
+      mode: "REQUIRED", // or "OPTIONAL"
+    }),
+  ],
 });
 
 function App() {
@@ -119,7 +127,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Authentication routes */}
-          {getSuperTokensRoutesForReactRouterDom(reactRouterDom, [EmailPasswordPreBuiltUI])}
+          {getSuperTokensRoutesForReactRouterDom(reactRouterDom, [EmailPasswordPreBuiltUI,EmailVerificationPreBuiltUI])}
 
           {/* Protected app routes */}
           <Route path="/" element={<Layout />}>
