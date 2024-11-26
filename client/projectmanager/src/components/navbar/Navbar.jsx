@@ -3,11 +3,15 @@ import { useEffect, useState } from "react";
 import apiClient, {endpoints} from "../../api";
 import Dropdown from "../dropdown/Dropdown";
 import headerLogo from "../../assets/yamaha.svg";
+import { signOut } from "supertokens-auth-react/recipe/session";
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import axios from 'axios';
 
 const Navbar = (props) => {
 
     const [projects, setProjects] = useState([]);
     const [departments, setDepartments] = useState([]);
+    const [userName, setUserName] = useState("")
     
     useEffect(()=> {
         const fetchAllProjects = async ()=>{
@@ -35,9 +39,21 @@ const Navbar = (props) => {
         fetchAllDepartments();
     }, [])
 
-    const handleLogOut = () => {
-        /*Handle Log Out Process here*/
+    const handleLogOut = async () => {
+        await signOut();
+        window.location.href = "/auth";
     }
+
+    async function  getData(){
+        try {
+          const res = await axios.get('http://10.111.160.105:28001/get-user-info');
+          console.log("metadata", res.data.emails[0]);
+          setUserName(res.data.emails[0])
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      getData();
 
   return (
     <div className="navbar">
@@ -56,7 +72,7 @@ const Navbar = (props) => {
             <div className="user">
              <button className="logout-button" onClick={() => handleLogOut()}>Log Out</button>
              <img src="/assets/react.svg" alt="" className="icon"/>
-             <span>Jalal</span>
+             <span>{userName}</span>
             </div>
         </div>
     </div>

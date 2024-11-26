@@ -5,12 +5,13 @@ import EventsTable from './Events.jsx';
 import UpcomingTask from './UpcomingTask.jsx';
 import LeftAlignedTimeline from '../../components/timeline/Timeline.jsx';
 
+
 const Home = ({unfilteredTasks, selectedProjectId, selectedDepartmentId}) => {
 
   if( (selectedProjectId === 0) || (selectedDepartmentId === 0)){
     return <h2 className="not-selected">Please select a project and department first</h2>;
   }
-  
+
   return (
     <div className='home'>
         <div className="box box8"><LeftAlignedTimeline/></div>
