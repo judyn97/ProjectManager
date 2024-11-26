@@ -14,6 +14,7 @@ import EmailPassword from "supertokens-node/recipe/emailpassword";
 import Dashboard from "supertokens-node/recipe/dashboard";
 import { verifySession } from "supertokens-node/recipe/session/framework/express";
 import UserMetadata from "supertokens-node/recipe/usermetadata";
+import EmailVerification from "supertokens-node/recipe/emailverification";
 
 supertokens.init({
     framework: "express",
@@ -35,6 +36,9 @@ supertokens.init({
         Session.init(), // initializes session features
         Dashboard.init(),
         UserMetadata.init(),
+        EmailVerification.init({
+            mode: "REQUIRED", // or "OPTIONAL"
+          }),
     ]
 });
 
