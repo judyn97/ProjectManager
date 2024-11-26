@@ -14,13 +14,39 @@ import Menu from "./components/menu/Menu.jsx";
 import Home from "./pages/home/Home.jsx";
 import ProjectSetting from './pages/project-settings/ProjectSetting.jsx';
 
-import {createBrowserRouter, BrowserRouter, Routes, Route, RouterProvider, Outlet} from "react-router-dom";
 import {
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet
+} from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+// SuperTokens imports
+import SuperTokens, { SuperTokensWrapper } from "supertokens-auth-react";
+import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
+import Session from "supertokens-auth-react/recipe/session";
+import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react/ui";
+import { EmailPasswordPreBuiltUI } from 'supertokens-auth-react/recipe/emailpassword/prebuiltui';
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import * as reactRouterDom from "react-router-dom";
+import axios from 'axios';
+import { getDataGridUtilityClass } from '@mui/x-data-grid';
+
 
 const queryClient = new QueryClient();
+
+// Initialize SuperTokens
+SuperTokens.init({
+  appInfo: {
+    appName: "projectmanager",
+    apiDomain: "http://10.111.160.105:28001",
+    websiteDomain: "http://10.111.160.105:28000",
+    apiBasePath: "/auth",
+    websiteBasePath: "/auth",
+  },
+  recipeList: [EmailPassword.init(), Session.init()],
+});
 
 function App() {
   const [selectedProject, setSelectedProject] = useState('Select a project');
@@ -64,7 +90,6 @@ function App() {
     }
   }, [selectedProjectId, selectedDepartmentId]);
 
-
   const Layout = () =>{
     return(
       <div className='main'>
@@ -89,56 +114,28 @@ function App() {
     );
   }
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/",
-          element: <Home unfilteredTasks={unfilteredTasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
-        },
-        {
-          path: "/Task",
-          element: <TaskList tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} bucketList={bucketList}/>,
-        },
-        {
-          path: "/TaskBoard",
-          element: <TaskBoard tasksBucket={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} fetchBucketsList={fetchBucketsList} bucketList={bucketList}/>,
-        },
-        {
-          path: "/AddTask",
-          element: <AddTask />,
-        },
-        {
-          path: "/GanttChart",
-          element: <GanttChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks}/>,
-        },
-        {
-          path: "/BurnUpChart",
-          element: <BurnupChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
-        },
-        {
-          path: "/TaskBurdenBar",
-          element: <TaskBurdenBar tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId}/>,
-        },
-        {
-          path: "/ProjectSetting",
-          element: <ProjectSetting />,
-        },
-      ],
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-  ]);
-
   return (
-    <div className='App'>
-      <RouterProvider router={router} />
-    </div>
-  )
+    <SuperTokensWrapper>
+      <BrowserRouter>
+        <Routes>
+          {/* Authentication routes */}
+          {getSuperTokensRoutesForReactRouterDom(reactRouterDom, [EmailPasswordPreBuiltUI])}
+
+          {/* Protected app routes */}
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<SessionAuth><Home unfilteredTasks={unfilteredTasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth>} />
+            <Route path="/Task" element={<SessionAuth><TaskList tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} bucketList={bucketList} /></SessionAuth>} />
+            <Route path="/TaskBoard" element={<SessionAuth><TaskBoard tasksBucket={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} fetchBucketsList={fetchBucketsList} bucketList={bucketList} /></SessionAuth>} />
+            <Route path="/AddTask" element={<SessionAuth><AddTask /></SessionAuth>} />
+            <Route path="/GanttChart" element={<SessionAuth><GanttChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} /></SessionAuth>} />
+            <Route path="/BurnUpChart" element={<SessionAuth><BurnupChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth>} />
+            <Route path="/TaskBurdenBar" element={<SessionAuth><TaskBurdenBar tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth>} />
+            <Route path="/ProjectSetting" element={<SessionAuth><ProjectSetting/></SessionAuth>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </SuperTokensWrapper>
+  );
 }
 
 export default App
