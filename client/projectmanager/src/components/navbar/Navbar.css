@@ -28,20 +28,16 @@
         align-items: center;
         gap: 20px;
 
-        .user{
+        .user-profile {
             display: flex;
             align-items: center;
-            img{
-                width: 26px;
-                height: 26px;
-                border-radius: 50%;
-                -webkit-border-radius: 50%;
-                -moz-border-radius: 50%;
-                -ms-border-radius: 50%;
-                -o-border-radius: 50%;
-                object-fit: cover;
-            }
-        }
+            margin-left: auto;  /* Align to the right */
+          }
+          
+          .user-profile-dropdown {
+            display: flex;
+            align-items: center;
+          }
     }
 }
 

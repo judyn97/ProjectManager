@@ -13,12 +13,14 @@ import Footer from "./components/footer/Footer.jsx";
 import Menu from "./components/menu/Menu.jsx";
 import Home from "./pages/home/Home.jsx";
 import ProjectSetting from './pages/project-settings/ProjectSetting.jsx';
+import UserSettings from './pages/user/UserSettings.jsx';
 
 import {
   BrowserRouter,
   Routes,
   Route,
-  Outlet
+  Outlet,
+  Navigate
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -34,6 +36,30 @@ import { EmailVerificationPreBuiltUI } from "supertokens-auth-react/recipe/email
 import * as reactRouterDom from "react-router-dom";
 import axios from 'axios';
 import { getDataGridUtilityClass } from '@mui/x-data-grid';
+
+function ProtectedRoute({ children }) {
+  const [isProfileComplete, setIsProfileComplete] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkProfileStatus = async () => {
+      try {
+        const res = await axios.get('http://10.111.160.105:28001/profile-status', { withCredentials: true });
+        setIsProfileComplete(res.data.profileComplete);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkProfileStatus();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  // Redirect to the settings page if the profile is incomplete
+  return isProfileComplete ? children : <Navigate to="/user-settings" />;
+}
 
 
 const queryClient = new QueryClient();
@@ -131,13 +157,14 @@ function App() {
 
           {/* Protected app routes */}
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<SessionAuth><Home unfilteredTasks={unfilteredTasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth>} />
-            <Route path="/Task" element={<SessionAuth><TaskList tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} bucketList={bucketList} /></SessionAuth>} />
-            <Route path="/TaskBoard" element={<SessionAuth><TaskBoard tasksBucket={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} fetchBucketsList={fetchBucketsList} bucketList={bucketList} /></SessionAuth>} />
-            <Route path="/AddTask" element={<SessionAuth><AddTask /></SessionAuth>} />
-            <Route path="/GanttChart" element={<SessionAuth><GanttChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} /></SessionAuth>} />
-            <Route path="/BurnUpChart" element={<SessionAuth><BurnupChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth>} />
-            <Route path="/TaskBurdenBar" element={<SessionAuth><TaskBurdenBar tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth>} />
+            <Route path="/user-settings" element={<SessionAuth><UserSettings /></SessionAuth>} />
+            <Route path="/" element={<ProtectedRoute><SessionAuth><Home unfilteredTasks={unfilteredTasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth></ProtectedRoute>} />
+            <Route path="/Task" element={<ProtectedRoute><SessionAuth><TaskList tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} bucketList={bucketList} /></SessionAuth></ProtectedRoute>} />
+            <Route path="/TaskBoard" element={<ProtectedRoute><SessionAuth><TaskBoard tasksBucket={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} fetchBucketsList={fetchBucketsList} bucketList={bucketList} /></SessionAuth></ProtectedRoute>} />
+            <Route path="/AddTask" element={<ProtectedRoute><SessionAuth><AddTask /></SessionAuth></ProtectedRoute>} />
+            <Route path="/GanttChart" element={<ProtectedRoute><SessionAuth><GanttChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} fetchAllTasks={fetchAllTasks} /></SessionAuth></ProtectedRoute>} />
+            <Route path="/BurnUpChart" element={<ProtectedRoute><SessionAuth><BurnupChart tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth></ProtectedRoute>} />
+            <Route path="/TaskBurdenBar" element={<ProtectedRoute><SessionAuth><TaskBurdenBar tasks={tasks} selectedProjectId={selectedProjectId} selectedDepartmentId={selectedDepartmentId} /></SessionAuth></ProtectedRoute>} />
             <Route path="/ProjectSetting" element={<SessionAuth><ProjectSetting/></SessionAuth>} />
           </Route>
         </Routes>

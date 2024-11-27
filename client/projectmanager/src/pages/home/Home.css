@@ -16,14 +16,10 @@
         background-color: #384256;
     }
 
-    .box1{
-        grid-column: span 1;
-        grid-row: span 4;
-    }
-
     .box5,
     .box6,
-    .box7{
+    .box7,
+    .box13{
         grid-column: span 1;
         grid-row: span 2;
     }

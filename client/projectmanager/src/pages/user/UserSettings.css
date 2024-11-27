@@ -1,0 +1,82 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.user-setting-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: #ffffff; /* Clean white background */
+  color: #333; /* Darker text for better readability */
+  height: auto;
+  width: 100%;
+  max-width: 500px; /* Maintain consistent width */
+  padding: 30px 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.user-header-title {
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff; /* Highlighted title */
+}
+
+.user-input,
+.user-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #555;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+select:focus {
+  border-color: #007bff; /* Highlighted border on focus */
+  outline: none; /* Remove default focus outline */
+}
+
+.save-button {
+  width: 100%; /* Full width button */
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .user-setting-container {
+    width: 90%;
+    padding: 20px;
+  }
+}

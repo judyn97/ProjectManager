@@ -1,0 +1,45 @@
+.user-profile-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    padding: 8px;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    font-size: 16px;  /* Adjust the size of initials */
+    background-color: #1976d2;  /* Change the background color of the avatar */
+  }
+  
+  .user-name {
+    font-weight: 600;
+    color: white;
+  }
+  
+  .dropdown-item {
+    text-decoration: none;
+    color: #333;
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f4f4f4;
+  }
+  
+  .link-style {
+    color: inherit;
+    text-decoration: none;
+  }
+  
