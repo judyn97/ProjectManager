@@ -57,7 +57,6 @@ const Navbar = (props) => {
     fetchUserMetadata();
   }, []);
 
-
   return (
     <div className="navbar">
       <div className="logo">

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Avatar, Menu, MenuItem } from '@mui/material';  // Import Material UI components
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import './ProfileDropdown.css';
 
 const UserProfileDropdown = ({ handleLogOut, memoizedUserMetadata }) => {
@@ -18,15 +18,18 @@ const UserProfileDropdown = ({ handleLogOut, memoizedUserMetadata }) => {
   const getUserInitials = (firstName, lastName) => {
     return `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
   };
-  console.log("please",memoizedUserMetadata?.metadata.preferences.firstName)
   return (
     <div className="user-profile-dropdown">
+      
       <button className="dropdown-toggle" onClick={handleClick}>
         <Avatar className="avatar">
-          {getUserInitials(memoizedUserMetadata?.metadata.preferences.firstName, memoizedUserMetadata?.metadata.preferences.lastName)}
+        {getUserInitials(
+          memoizedUserMetadata?.metadata?.preferences?.firstName || 'U',  // Default to 'U'
+          memoizedUserMetadata?.metadata?.preferences?.lastName || 'S'   // Default to 'S'
+        )}
         </Avatar>
-        <span className="user-name">
-          {memoizedUserMetadata?.metadata.preferences.firstName}
+        <span className="user-name">  
+          {memoizedUserMetadata?.metadata?.preferences?.firstName || 'User'}
         </span>
       </button>
       
