@@ -6,7 +6,7 @@ import projectRoutes from "./routes/projects.js";
 import departmentRoutes from "./routes/departments.js";
 import eventRoutes from "./routes/events.js";
 import commentRoutes from "./routes/comments.js";
-import supertokens from "supertokens-node";
+import supertokens, { getUsersNewestFirst } from "supertokens-node";
 import { middleware } from "supertokens-node/framework/express";
 import { errorHandler } from "supertokens-node/framework/express";
 import Session from "supertokens-node/recipe/session";
@@ -41,6 +41,8 @@ supertokens.init({
           }),
     ]
 });
+
+
 
 const app = express();
 
@@ -82,6 +84,46 @@ app.get("/get-user-info", verifySession(), async (req, res) => {
    * 
   */
 })
+
+app.get("/profile-status", verifySession(), async (req, res) => {
+    const session = req.session;
+    const userId = session.getUserId();
+  
+    const { metadata } = await UserMetadata.getUserMetadata(userId);
+    
+    // Check if required fields are filled
+    const profileComplete = metadata.preferences && metadata.preferences.profileComplete;
+    res.json({ profileComplete });
+  });
+
+  app.get("/user-profile", verifySession(), async (req, res) => {
+    const session = req.session;
+    const userId = session.getUserId();
+  
+    const { metadata } = await UserMetadata.getUserMetadata(userId);
+    
+    res.json({ metadata });
+  });
+
+  app.post("/updateinfo", verifySession(), async (req, res) => {
+    const session = req.session;
+    const userId = session.getUserId();
+  
+    const { preferences } = req.body; 
+  
+    try {
+      await UserMetadata.updateUserMetadata(userId, {
+        preferences: preferences
+      });
+  
+      const { metadata } = await UserMetadata.getUserMetadata(userId);
+      res.json({ message: "User info updated successfully", preferences: metadata.preferences });
+    } catch (err) {
+      res.status(500).json({ error: "An error occurred while updating user info" });
+    }
+  });
+  
+  
 
 app.use(errorHandler())
 
